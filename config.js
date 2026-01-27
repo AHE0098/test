@@ -6,11 +6,11 @@
 
 const CFG = {
   // --- Version stamp (bump this every time you update questions/settings) ---
-  QUIZ_VERSION: "v2026-01-27-b", // Shown in UI so you can verify the deployed build instantly
+ QUIZ_VERSION: "v2026-01-27-c", // Shown in UI so you can verify the deployed build instantly
 
   // --- Question pack selection ---
-  QUESTION_SET_KEY: "party-dk-v1", // Which question pack to play (key in QUESTION_SETS)
-  QUESTIONS_PER_GAME: 10,          // How many questions to use from that pack
+  QUESTION_SET_KEY: "science-nerd-v1", // Which question pack to play (key in QUESTION_SETS)
+  QUESTIONS_PER_GAME: 5,          // How many questions to use from that pack
   SHUFFLE_QUESTIONS: true,         // Shuffle question order at game start
   SHUFFLE_OPTIONS: true,           // Shuffle answer options per question (correctIndex updates)
 
