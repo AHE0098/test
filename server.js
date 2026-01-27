@@ -18,7 +18,25 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-app.use(express.static("public"));
+const path = require("path");
+
+// Serve ONLY the frontend files from repo root
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+app.get("/client.js", (req, res) => {
+  res.sendFile(path.join(__dirname, "client.js"));
+});
+
+app.get("/style.css", (req, res) => {
+  res.sendFile(path.join(__dirname, "style.css"));
+});
+
+app.get("/ui-config.js", (req, res) => {
+  res.sendFile(path.join(__dirname, "ui-config.js"));
+});
+
 
 // ---------------------
 // State
