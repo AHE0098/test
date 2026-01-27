@@ -9,7 +9,7 @@ const http = require("http");
 const { Server } = require("socket.io");
 
 const { CFG } = require("./config");
-const { QUESTIONS } = require("./questions");
+const { QUESTION_SETS } = require("./questions");
 
 // ---------------------
 // Server setup
@@ -129,6 +129,70 @@ function computePoints({ correct, answerAt, startAt, endAt }) {
   const bonus = Math.floor(CFG.BASE_POINTS_CORRECT * CFG.SPEED_BONUS_FACTOR * remainingRatio);
   return CFG.BASE_POINTS_CORRECT + bonus;
 }
+// ---------------------
+// Question selection + validation
+// ---------------------
+let gameQuestions = [];
+
+function shuffleInPlace(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function shuffleOptionsKeepCorrect(q) {
+  // returns a new question where options are shuffled, and correctIndex updated accordingly
+  const indexed = q.options.map((text, idx) => ({ text, idx }));
+  shuffleInPlace(indexed);
+
+  const newOptions = indexed.map(x => x.text);
+  const newCorrectIndex = indexed.findIndex(x => x.idx === q.correctIndex);
+
+  return { ...q, options: newOptions, correctIndex: newCorrectIndex };
+}
+
+function validateQuestionSet(setKey) {
+  const set = QUESTION_SETS[setKey];
+  if (!set) throw new Error(`Unknown QUESTION_SET_KEY: ${setKey}`);
+
+  const qs = set.questions;
+  if (!Array.isArray(qs) || qs.length === 0) throw new Error(`Question set ${setKey} has no questions`);
+
+  const ids = new Set();
+  for (const q of qs) {
+    if (!q || typeof q !== "object") throw new Error(`Invalid question in set ${setKey}`);
+    if (typeof q.id !== "string" || !q.id) throw new Error(`Question missing id in set ${setKey}`);
+    if (ids.has(q.id)) throw new Error(`Duplicate question id "${q.id}" in set ${setKey}`);
+    ids.add(q.id);
+
+    if (typeof q.text !== "string" || !q.text) throw new Error(`Question ${q.id} missing text`);
+    if (!Array.isArray(q.options) || q.options.length < 2) throw new Error(`Question ${q.id} must have >=2 options`);
+    if (!Number.isInteger(q.correctIndex) || q.correctIndex < 0 || q.correctIndex >= q.options.length) {
+      throw new Error(`Question ${q.id} has invalid correctIndex`);
+    }
+  }
+  return set;
+}
+
+function prepareGameQuestions() {
+  const set = validateQuestionSet(CFG.QUESTION_SET_KEY);
+
+  let qs = set.questions.map(q => ({ ...q })); // shallow clone
+  if (CFG.SHUFFLE_QUESTIONS) qs = shuffleInPlace(qs);
+
+  // limit number of questions
+  const n = Math.min(CFG.QUESTIONS_PER_GAME ?? qs.length, qs.length);
+  qs = qs.slice(0, n);
+
+  if (CFG.SHUFFLE_OPTIONS) {
+    qs = qs.map(shuffleOptionsKeepCorrect);
+  }
+
+  gameQuestions = qs;
+  log("[QUESTIONS] Using set:", CFG.QUESTION_SET_KEY, "-", set.title, "count:", gameQuestions.length);
+}
 
 // ---------------------
 // Game flow
@@ -141,17 +205,27 @@ function startGameIfPossible() {
   qIndex = 0;
   for (const p of players.values()) p.score = 0;
 
-  startQuestionRound();
+try {
+  prepareGameQuestions();
+} catch (err) {
+  console.error("[QUESTIONS] Failed to prepare questions:", err?.message || err);
+  // Stay in lobby so you can fix config/questions without bricking the app
+  setPhase("lobby");
+  return;
+}
+
+startQuestionRound();
+
 }
 
 function startQuestionRound() {
-  if (qIndex >= QUESTIONS.length) return endGame();
+if (qIndex >= gameQuestions.length) return endGame();
 
   clearQuestionTimer();
   markAllNotReady();
   setPhase("question");
 
-  const q = QUESTIONS[qIndex];
+  const q = gameQuestions[qIndex];
   const requiredIds = activePlayerIds();
 
   const now = Date.now();
@@ -174,7 +248,7 @@ function startQuestionRound() {
   io.emit("newQuestion", {
     phase,
     question: { id: q.id, text: q.text, options: q.options },
-    meta: { qNumber: qIndex + 1, qTotal: QUESTIONS.length, startAt, endAt }
+    meta: { qNumber: qIndex + 1, qTotal: gameQuestions.length, startAt, endAt }
   });
 
   questionTimer = setTimeout(() => endQuestionRound("time_up"), Math.max(0, endAt - Date.now()));
@@ -197,7 +271,7 @@ function endQuestionRound(reason) {
 
   setPhase("reveal");
 
-  const q = QUESTIONS[qIndex];
+  const q = gameQuestions[qIndex];
   const correctIndex = q.correctIndex;
 
   const revealRows = round.requiredPlayerIds.map(id => {
@@ -231,7 +305,7 @@ function endQuestionRound(reason) {
     correctIndex,
     correctText: q.options[correctIndex],
     answers: revealRows,
-    meta: { qNumber: qIndex + 1, qTotal: QUESTIONS.length }
+    meta: { qNumber: qIndex + 1, qTotal: gameQuestions.length }
   });
 
   log("[ROUND end]", q.id, reason);
@@ -312,7 +386,7 @@ io.on("connection", socket => {
     if (!entry) return;
     if (entry.answerIndex != null) return; // only first answer counts
 
-    const q = QUESTIONS[qIndex];
+    const q = gameQuestions[qIndex];
     let answerIndex = null;
 
     if (typeof answerIndexRaw === "number" && Number.isInteger(answerIndexRaw)) {
