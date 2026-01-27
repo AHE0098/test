@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Mobile Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <header class="top">
+      <div class="title">Quiz</div>
+      <div class="right">
+        <div id="version" class="badge">v?</div>
+        <div id="phaseBadge" class="badge">lobby</div>
+      </div>
+    </header>
+
+    <section id="screenLobby" class="card">
+      <h2>Lobby</h2>
+      <p class="muted">Tryk Ready. Spillet starter når alle aktive spillere er Ready.</p>
+      <div id="playerList" class="list"></div>
+      <button id="btnReadyLobby" class="btn primary">Ready</button>
+      <div id="lobbyHint" class="muted small"></div>
+    </section>
+
+    <section id="screenQuestion" class="card hidden">
+      <div class="row space-between">
+        <div id="qCounter" class="muted small">Spørgsmål 1/1</div>
+        <div id="qStatus" class="muted small">...</div>
+      </div>
+
+      <div class="timer">
+        <div id="timerBar" class="timer-bar"></div>
+      </div>
+
+      <h2 id="qText">...</h2>
+      <div id="options" class="grid"></div>
+      <div id="answerHint" class="muted small"></div>
+    </section>
+
+    <section id="screenReveal" class="card hidden">
+      <h2>Facit</h2>
+      <p class="muted">Korrekt svar: <span id="correctText" class="pill"></span></p>
+      <div id="revealList" class="list"></div>
+      <button id="btnReadyReveal" class="btn primary">Ready</button>
+      <div id="revealHint" class="muted small"></div>
+    </section>
+
+    <section id="screenGameOver" class="card hidden">
+      <h2>Final score 🏁</h2>
+      <div id="finalList" class="list"></div>
+      <p class="muted small">Scores blev holdt skjult undervejs (suspense!).</p>
+    </section>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="ui-config.js"></script>
+  <script src="client.js"></script>
+</body>
+</html>
