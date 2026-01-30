@@ -1,39 +1,60 @@
 // config.js
-// =====================
-// All tunables live here.
-// Change these values to control the game without touching the "engine".
-// =====================
+// All tunables / knobs live here.
 
-const CFG = {
-  // --- Version stamp (bump this every time you update questions/settings) ---
- QUIZ_VERSION: "v2026-01-27-c", // Shown in UI so you can verify the deployed build instantly
+const QUIZ_VERSION = "v-rounds-3-setup-001";
 
-  // --- Question pack selection ---
-  QUESTION_SET_KEY: "science-nerd-v1", // Which question pack to play (key in QUESTION_SETS)
-  QUESTIONS_PER_GAME: 5,          // How many questions to use from that pack
-  SHUFFLE_QUESTIONS: true,         // Shuffle question order at game start
-  SHUFFLE_OPTIONS: true,           // Shuffle answer options per question (correctIndex updates)
+// --- Players ---
+const MAX_PLAYERS = 12;          // active players (extras become spectators)
+const ALLOW_SPECTATORS = true;
 
-  // --- Game size ---
-  MAX_PLAYERS: 12,               // Max active players (extra become spectators)
-  MIN_PLAYERS_TO_START: 2,       // Minimum active players required to start
+// --- Timing ---
+const START_DELAY_MS = 900;      // buffer so phones can sync + enable buttons fairly
+const QUESTION_MS = 14000;       // time to answer each question
+const REVEAL_MIN_MS = 1200;      // small buffer before allowing "Ready" after reveal (optional)
 
-  // --- Timing ---
-  QUESTION_TIME_MS: 12000,       // Time allowed per question (milliseconds)
-  QUESTION_START_DELAY_MS: 800,  // Fair start: clients enable buttons at the same time
+// --- Flow ---
+const REQUIRE_READY_IN_LOBBY = true;
+const REQUIRE_READY_AFTER_REVEAL = true;
 
-  // --- Flow ---
-  REQUIRE_READY_BETWEEN_QUESTIONS: true, // Everyone must press Ready between questions
-  AUTO_START_WHEN_ALL_READY: true,       // In lobby, auto-start when all active players are Ready
+// --- Scoring ---
+const SCORE_CORRECT_BASE = 1000;
+const SCORE_WRONG = 0;
+const SCORE_NO_ANSWER = 0;
 
-  // --- Scoring (kept secret until game over) ---
-  BASE_POINTS_CORRECT: 1000,     // Base points for a correct answer
-  SPEED_BONUS_FACTOR: 1.0,       // 0 = ignore speed; 1 = linear bonus based on remaining time
-  WRONG_POINTS: 0,               // Points for incorrect answer (can be negative)
-  NO_ANSWER_POINTS: 0,           // Points if no answer before time runs out
+// Speed bonus: points proportional to remaining fraction of time.
+// Example: if SPEED_BONUS_MAX=500, answering instantly yields +500, at the buzzer yields ~0.
+const SPEED_BONUS_ENABLED = true;
+const SPEED_BONUS_MAX = 500;
 
-  // --- Logging / debug ---
-  LOG_EVENTS: true               // Server console logs (turn off to reduce noise)
+// --- Question behavior ---
+const SHUFFLE_OPTIONS = true;
+
+// --- ROUNDS (the new thing) ---
+// Each round selects questions from a different set.
+// Edit this array to change number of rounds, sets, and questions per round.
+const ROUNDS = [
+  { setKey: "party-dk-v1", questions: 4 },
+  { setKey: "science-nerd-v1", questions: 4 },
+  { setKey: "spicy-meds-v1", questions: 4 }
+];
+
+const LOG_EVENTS = true;
+
+module.exports = {
+  QUIZ_VERSION,
+  MAX_PLAYERS,
+  ALLOW_SPECTATORS,
+  START_DELAY_MS,
+  QUESTION_MS,
+  REVEAL_MIN_MS,
+  REQUIRE_READY_IN_LOBBY,
+  REQUIRE_READY_AFTER_REVEAL,
+  SCORE_CORRECT_BASE,
+  SCORE_WRONG,
+  SCORE_NO_ANSWER,
+  SPEED_BONUS_ENABLED,
+  SPEED_BONUS_MAX,
+  SHUFFLE_OPTIONS,
+  ROUNDS,
+  LOG_EVENTS
 };
-
-module.exports = { CFG };
