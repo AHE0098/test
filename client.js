@@ -184,6 +184,11 @@ function renderPlayers(players) {
 function renderRoundPick(payload) {
   // show lobby view so everyone sees picker
   showView(el.viewLobby);
+ if (!el.roundPickBox || !el.roundPickOptions || !el.roundPickHint) {
+    // If HTML not added yet, fail gracefully
+    el.lobbyInfo.textContent = "Round picker UI missing in index.html.";
+    return;
+  }
 
   el.roundPickBox.classList.remove("hidden");
   clearChildren(el.roundPickOptions);
@@ -434,18 +439,25 @@ socket.on("gameError", payload => {
 });
 
 socket.on("state", data => {
-  // Hide round picker unless we explicitly show it via the "roundPick" event
-  if (el.roundPickBox) {
+  // 1) update phase first (use server truth)
+  state.phase = data.phase || "lobby";
+
+  // 2) show lobby view during roundpick (buttons arrive via "roundPick" event)
+  if (state.phase === "roundpick") {
+    showView(el.viewLobby);
+  }
+
+  // 3) hide round picker unless we are currently in roundpick
+  if (el.roundPickBox && state.phase !== "roundpick") {
     el.roundPickBox.classList.add("hidden");
     if (el.roundPickOptions) el.roundPickOptions.innerHTML = "";
     if (el.roundPickHint) el.roundPickHint.textContent = "";
   }
 
-  state.phase = data.phase || "lobby";
   setPhase(state.phase);
   if (data.version) setVersion(data.version);
 
-  // update my spectator status if server includes my record
+  // players
   if (Array.isArray(data.players)) {
     const me = data.players.find(p => p.id === socket.id);
     if (me) {
@@ -462,10 +474,7 @@ socket.on("state", data => {
     setRoundLabel(el.roundLabel, null);
     setRoundLabel(el.revealRoundLabel, null);
 
-    // spectators can't ready
     el.readyBtn.disabled = !!state.me.isSpectator;
-
-    // keep button label consistent
     el.readyBtn.textContent = state.me.ready ? "Unready" : "Ready";
   }
 
@@ -481,6 +490,8 @@ socket.on("state", data => {
     showView(el.viewFinal);
   }
 });
+
+
 
 socket.on("question", payload => {
   state.phase = "question";
