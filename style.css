@@ -246,3 +246,25 @@ body{
   background: rgba(255,255,255,0.04);
   font-weight: 750;
 }
+
+/* Make topbar meta quiet (debug-y) */
+.topbar .meta .pill {
+  opacity: 0.25;
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
+/* Hide meta entirely unless debug mode is on */
+body:not(.debug) .topbar .meta {
+  display: none;
+}
+
+/* Optional status dot (only if you added #statusDot) */
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  display: inline-block;
+  background: #999;
+  opacity: 0.8;
+}
