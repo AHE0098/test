@@ -1,61 +1,102 @@
+<!-- index.html -->
 <!doctype html>
-<html lang="da">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Mobile Quiz</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+  <title>Quiz</title>
+  <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-  <main class="wrap">
-    <header class="top">
-      <div class="title">Quiz</div>
-      <div class="right">
-        <div id="version" class="badge">v?</div>
-        <div id="phaseBadge" class="badge">lobby</div>
+  <div class="app">
+
+    <header class="topbar">
+      <div class="brand">Quiz</div>
+      <div class="meta">
+        <span id="versionTag" class="pill">v?</span>
+        <span id="phaseTag" class="pill">phase</span>
       </div>
     </header>
 
-    <section id="screenLobby" class="card">
-      <h2>Lobby</h2>
-      <p class="muted">Tryk Ready. Spillet starter når alle aktive spillere er Ready.</p>
-      <div id="playerList" class="list"></div>
-      <button id="btnReadyLobby" class="btn primary">Ready</button>
-      <div id="lobbyHint" class="muted small"></div>
-    </section>
+    <!-- LOBBY -->
+    <section id="viewLobby" class="view">
+      <h1 class="title">Join</h1>
 
-    <section id="screenQuestion" class="card hidden">
-      <div class="row space-between">
-        <div id="qCounter" class="muted small">Spørgsmål 1/1</div>
-        <div id="qStatus" class="muted small">...</div>
+      <div class="card">
+        <label class="label">Your name</label>
+        <input id="nameInput" class="input" placeholder="Andreas" maxlength="18" />
+        <button id="joinBtn" class="btn primary">Join</button>
       </div>
 
-      <div class="timer">
-        <div id="timerBar" class="timer-bar"></div>
+      <div class="card">
+        <div class="row between">
+          <div>
+            <div class="label">Players</div>
+            <div id="playerCount" class="big">0</div>
+          </div>
+          <div class="right">
+            <div class="label">Status</div>
+            <div id="youTag" class="pill">—</div>
+          </div>
+        </div>
+
+        <div id="playersList" class="players"></div>
+
+        <div class="row gap">
+          <button id="readyBtn" class="btn">Ready</button>
+          <button id="restartBtn" class="btn ghost">Restart lobby</button>
+        </div>
+
+        <div id="lobbyInfo" class="hint"></div>
+      </div>
+    </section>
+
+    <!-- QUESTION -->
+    <section id="viewQuestion" class="view hidden">
+      <div id="roundLabel" class="round-label"></div>
+
+      <div class="card">
+        <div id="questionText" class="question">…</div>
+        <div id="timerOuter" class="timer-outer">
+          <div id="timerInner" class="timer-inner"></div>
+        </div>
       </div>
 
-      <h2 id="qText">...</h2>
-      <div id="options" class="grid"></div>
-      <div id="answerHint" class="muted small"></div>
+      <div id="options" class="options"></div>
+
+      <div class="hint" id="questionHint"></div>
     </section>
 
-    <section id="screenReveal" class="card hidden">
-      <h2>Facit</h2>
-      <p class="muted">Korrekt svar: <span id="correctText" class="pill"></span></p>
-      <div id="revealList" class="list"></div>
-      <button id="btnReadyReveal" class="btn primary">Ready</button>
-      <div id="revealHint" class="muted small"></div>
+    <!-- REVEAL -->
+    <section id="viewReveal" class="view hidden">
+      <div id="revealRoundLabel" class="round-label"></div>
+
+      <div class="card">
+        <div class="label">Correct answer</div>
+        <div id="correctAnswer" class="big">—</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Answers</div>
+        <div id="revealList" class="reveal"></div>
+        <button id="readyAfterRevealBtn" class="btn primary">Ready</button>
+        <div id="revealHint" class="hint"></div>
+      </div>
     </section>
 
-    <section id="screenGameOver" class="card hidden">
-      <h2>Final score 🏁</h2>
-      <div id="finalList" class="list"></div>
-      <p class="muted small">Scores blev holdt skjult undervejs (suspense!).</p>
+    <!-- FINAL -->
+    <section id="viewFinal" class="view hidden">
+      <h1 class="title">Final Scoreboard</h1>
+      <div class="card">
+        <div id="finalList" class="final"></div>
+        <button id="finalRestartBtn" class="btn ghost">Back to lobby</button>
+      </div>
     </section>
-  </main>
+
+  </div>
 
   <script src="/socket.io/socket.io.js"></script>
-  <script src="ui-config.js"></script>
-  <script src="client.js"></script>
+  <script src="/ui-config.js"></script>
+  <script src="/client.js"></script>
 </body>
 </html>
