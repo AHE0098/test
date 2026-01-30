@@ -40,6 +40,21 @@ app.get("/health", (req, res) => {
 // -------------------
 // Utility helpers
 // -------------------
+
+function totalPlannedQuestions() {
+  return (CFG.ROUNDS || []).reduce((sum, r) => sum + (r.questions || 0), 0);
+}
+
+function globalQuestionNumberInWholeGame() {
+  // questions completed in prior played rounds + current question number in current round
+  const completed = (CFG.ROUNDS[0]?.questions ? 0 : 0); // noop; keep simple below
+  // since each played round can have different question counts, we track it by summing played rounds from config order:
+  // BUT since order is user-chosen, easiest: track questionsCompletedSoFar on game state.
+  // If you want minimal: skip this and just show per-round counters.
+  return null;
+}
+
+
 function log(...args) {
   if (CFG.LOG_EVENTS) console.log(new Date().toISOString(), ...args);
 }
@@ -59,6 +74,65 @@ function shuffleOptionsKeepCorrect(q) {
   const newCorrectIndex = pairs.findIndex(p => p.idx === q.correctIndex);
   return { ...q, options: newOptions, correctIndex: newCorrectIndex };
 }
+
+function requiredVotesToStart() {
+  const n = activePlayers().length;
+  return Math.max(1, Math.min(2, n)); // 1 if solo, else 2
+}
+
+function roundPickPayload() {
+  const available = game.remainingRounds.map(r => {
+    const set = QUESTION_SETS[r.setKey];
+    return {
+      setKey: r.setKey,
+      title: set ? set.title : r.setKey,
+      description: set ? set.description : "",
+      questions: r.questions
+    };
+  });
+
+  const counts = {};
+  for (const v of game.roundVotes.values()) counts[v] = (counts[v] || 0) + 1;
+
+  return {
+    availableRounds: available,
+    voteCounts: counts,
+    requiredVotes: requiredVotesToStart(),
+    playedRoundCount: game.playedRoundCount,
+    totalRounds: CFG.ROUNDS.length
+  };
+}
+
+function enterRoundPick() {
+  game.phase = "roundpick";
+  resetReadyAll();
+  game.roundVotes = new Map();
+  broadcastState();
+  io.emit("roundPick", roundPickPayload());
+}
+
+function tryStartVotedRound() {
+  const req = requiredVotesToStart();
+  const counts = {};
+  for (const v of game.roundVotes.values()) counts[v] = (counts[v] || 0) + 1;
+
+  // find any setKey reaching threshold
+  const winnerKey = Object.keys(counts).find(k => counts[k] >= req);
+  if (!winnerKey) {
+    io.emit("roundPick", roundPickPayload());
+    return;
+  }
+
+  const cfg = game.remainingRounds.find(r => r.setKey === winnerKey);
+  if (!cfg) {
+    // invalid / already played
+    io.emit("roundPick", roundPickPayload());
+    return;
+  }
+
+  startSelectedRound(cfg);
+}
+
 
 function prepareRoundQuestions() {
   const rounds = CFG.ROUNDS;
@@ -109,6 +183,55 @@ function safePublicPlayer(p) {
   };
 }
 
+function prepareOneRound(cfg, roundNumber, roundCount) {
+  const set = QUESTION_SETS[cfg.setKey];
+  if (!set) throw new Error(`Unknown setKey "${cfg.setKey}"`);
+
+  let qs = [...set.questions];
+  shuffleInPlace(qs);
+  qs = qs.slice(0, cfg.questions);
+
+  if (CFG.SHUFFLE_OPTIONS) qs = qs.map(shuffleOptionsKeepCorrect);
+
+  qs = qs.map((q, i) => ({
+    ...q,
+    roundNumber,
+    roundCount,
+    roundTitle: set.title,
+    qInRound: i + 1,
+    qInRoundTotal: cfg.questions
+  }));
+
+  return {
+    setKey: cfg.setKey,
+    title: set.title,
+    description: set.description,
+    questions: qs
+  };
+}
+
+function startSelectedRound(cfg) {
+  game.currentRoundCfg = cfg;
+
+  // remove from remaining
+  game.remainingRounds = game.remainingRounds.filter(r => r.setKey !== cfg.setKey);
+
+  // build a "current roundQuestions" container to reuse currentQuestion() logic
+  const roundNumber = game.playedRoundCount + 1;
+  const roundCount = CFG.ROUNDS.length;
+
+  const builtRound = prepareOneRound(cfg, roundNumber, roundCount);
+  game.roundQuestions = [builtRound];
+  game.roundIndex = 0;
+  game.qInRound = 0;
+
+  game.phase = "question";
+  resetReadyAll();
+  broadcastState();
+  startQuestion();
+}
+
+
 // -------------------
 // Game state
 // -------------------
@@ -117,6 +240,12 @@ let game = {
   players: new Map(), // socket.id -> player
   hostId: null,
 
+  // round picking / voting
+  remainingRounds: [],           // array of round configs from CFG.ROUNDS not yet played
+  currentRoundCfg: null,         // { setKey, questions }
+  playedRoundCount: 0,           // how many rounds completed
+  roundVotes: new Map(),         // socket.id -> setKey
+  
   // rounds state
   roundQuestions: [],
   roundIndex: 0,
@@ -188,25 +317,26 @@ function currentQuestionGlobalNumber() {
 
 function startGame() {
   log("Starting game...");
-  game.phase = "question";
   resetReadyAll();
 
-  try {
-    game.roundQuestions = prepareRoundQuestions();
-    game.roundIndex = 0;
-    game.qInRound = 0;
-  } catch (err) {
-    console.error("Failed to prepare rounds:", err);
-    io.emit("gameError", { message: "Question packs broken. Returned to lobby.", detail: String(err.message || err) });
-    game.phase = "lobby";
-    resetReadyAll();
-    broadcastState();
-    return;
-  }
+  // initialize remaining rounds for picking
+  game.remainingRounds = [...CFG.ROUNDS];
+  game.currentRoundCfg = null;
+  game.playedRoundCount = 0;
+  game.roundVotes = new Map();
 
-  broadcastState({ preparedCount: totalQuestionsCount() });
-  startQuestion();
+  // clear current round/question state
+  game.roundQuestions = [];
+  game.roundIndex = 0;
+  game.qInRound = 0;
+  game.questionStartAt = null;
+  game.questionEndAt = null;
+  game.answers = new Map();
+
+  broadcastState();
+  enterRoundPick();
 }
+
 
 function startQuestion() {
   const q = currentQuestion();
@@ -325,17 +455,22 @@ function revealAndScore() {
 }
 
 function advanceAfterReveal() {
-  const round = game.roundQuestions[game.roundIndex];
+  const round = game.roundQuestions[0];
   if (!round) return endGame();
 
   game.qInRound += 1;
 
+  // finished this chosen round?
   if (game.qInRound >= round.questions.length) {
-    game.roundIndex += 1;
-    game.qInRound = 0;
-  }
+    game.playedRoundCount += 1;
 
-  if (game.roundIndex >= game.roundQuestions.length) {
+    // more rounds available to choose?
+    if (game.remainingRounds.length > 0) {
+      enterRoundPick();
+      return;
+    }
+
+    // no rounds left
     return endGame();
   }
 
@@ -398,6 +533,20 @@ io.on("connection", (socket) => {
     broadcastState();
   });
 
+socket.on("chooseRound", ({ setKey }) => {
+  const p = game.players.get(socket.id);
+  if (!p) return;
+  if (p.isSpectator) return;
+  if (game.phase !== "roundpick") return;
+
+  const key = String(setKey || "");
+  const ok = game.remainingRounds.some(r => r.setKey === key);
+  if (!ok) return;
+
+  game.roundVotes.set(socket.id, key);
+  tryStartVotedRound();
+});
+  
   socket.on("setReady", ({ ready }) => {
     const p = game.players.get(socket.id);
     if (!p) return;
@@ -505,7 +654,7 @@ io.on("connection", (socket) => {
     log("disconnect", socket.id);
     const p = game.players.get(socket.id);
     if (p) p.connected = false;
-
+if (game.roundVotes) game.roundVotes.delete(socket.id);
     if (socket.id === game.hostId) {
       // pick a new host from connected users
       const next = Array.from(game.players.values()).find(pp => pp.connected);
