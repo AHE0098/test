@@ -6,7 +6,6 @@ const QUESTION_SETS = {
     title: "Party DK (v1)",
     description: "Let, sjovt, mobil-venligt.",
     questions: [
-       { id: "pd0", text: "Testspørgsmål", options: [ "Ja", "Nej", "Måske", "Slet ikke" ], correctIndex: 0 },
       { id: "pd1", text: "Hvad betragtes som et normalt blodtryk for en voksen?", options: [ "Ca. 120/80 mmHg", "Ca. 180/110 mmHg", "Ca. 150/90 mmHg", "Ca. 90/60 mmHg" ], correctIndex: 0},
       { id: "pd2", text: "Hvad er førstevalgsbehandling ved anafylaktisk chok?", options: [ "Intramuskulær adrenalin", "Inhalation med beta-2 agonist", "Intravenøs antihistamin", "Intravenøs glukokortikoid" ], correctIndex: 0 },
       { id: "pd3", text: "Hvilken type diabetes kræver altid insulinbehandling?", options: [ "Diabetes insipidus", "Type 2-diabetes", "Type 1-diabetes", "Gestationel diabetes" ], correctIndex: 2 },
