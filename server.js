@@ -309,6 +309,7 @@ function revealAndScore() {
     questionId: q.id,
     correctIndex: q.correctIndex,
     answers: reveal,
+    revealMinMs: CFG.REVEAL_MIN_MS, 
     // round UI
     roundNumber: q.roundNumber,
     roundCount: q.roundCount,
