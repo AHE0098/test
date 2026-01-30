@@ -1,6 +1,6 @@
-// public/client.js
+// client.js
 // =====================
-// Client: UI + Socket events
+// Client: UI + Socket events (matches current server.js events/payloads)
 // =====================
 
 const UI = window.UI_CFG || { TIMER_TICK_MS: 50 };
@@ -55,7 +55,6 @@ function vibrate(ms) {
 // ---- State ----
 const state = {
   phase: "lobby",
-  cfgPublic: null,
   me: { name: "", spectator: false, ready: false },
   timerInterval: null,
   answered: false,
@@ -70,6 +69,7 @@ function askName() {
   const raw = prompt("Navn (max 24 tegn):") || "Player";
   return raw.toString().slice(0, 24);
 }
+
 state.me.name = askName();
 socket.emit("join", { name: state.me.name });
 
@@ -77,6 +77,7 @@ socket.emit("join", { name: state.me.name });
 function setPhaseBadge(text) {
   el.phaseBadge.textContent = text;
 }
+
 function showScreen(which) {
   el.screenLobby.classList.add("hidden");
   el.screenQuestion.classList.add("hidden");
@@ -84,11 +85,10 @@ function showScreen(which) {
   el.screenGameOver.classList.add("hidden");
   which.classList.remove("hidden");
 }
+
 function setRoundLabel(meta) {
   if (!el.roundLabel) return;
 
-  // Server should include these in meta:
-  // meta.roundNumber, meta.roundCount, meta.roundTitle, meta.qInRound, meta.qInRoundTotal
   if (!meta || !meta.roundNumber || !meta.roundCount) {
     el.roundLabel.style.display = "none";
     el.roundLabel.textContent = "";
@@ -96,7 +96,8 @@ function setRoundLabel(meta) {
   }
 
   const title = meta.roundTitle ? ` — ${meta.roundTitle}` : "";
-  const qPart = (meta.qInRound && meta.qInRoundTotal) ? ` • Q ${meta.qInRound}/${meta.qInRoundTotal}` : "";
+  const qPart =
+    meta.qInRound && meta.qInRoundTotal ? ` • Q ${meta.qInRound}/${meta.qInRoundTotal}` : "";
 
   el.roundLabel.textContent = `Round ${meta.roundNumber}/${meta.roundCount}${title}${qPart}`;
   el.roundLabel.style.display = "block";
@@ -107,6 +108,7 @@ function hideRoundLabel() {
   el.roundLabel.style.display = "none";
   el.roundLabel.textContent = "";
 }
+
 function renderPlayerList(players) {
   el.playerList.innerHTML = "";
   players.forEach(p => {
@@ -125,7 +127,11 @@ function renderPlayerList(players) {
     el.playerList.appendChild(row);
   });
 }
-function clearOptions() { el.options.innerHTML = ""; }
+
+function clearOptions() {
+  el.options.innerHTML = "";
+}
+
 function setOptionsEnabled(enabled) {
   [...el.options.querySelectorAll("button")].forEach(b => (b.disabled = !enabled));
 }
@@ -142,7 +148,7 @@ function startTimerBar(startAt, endAt) {
     const now = Date.now();
     const total = endAt - startAt;
     const remaining = Math.max(0, endAt - now);
-    const ratio = total > 0 ? (remaining / total) : 0;
+    const ratio = total > 0 ? remaining / total : 0;
     el.timerBar.style.width = `${Math.max(0, Math.min(1, ratio)) * 100}%`;
 
     if (now >= endAt) {
@@ -161,8 +167,8 @@ function renderQuestion(question, meta) {
   state.question = question;
   state.meta = meta;
 
-  setRoundLabel(meta); 
-  
+  setRoundLabel(meta);
+
   el.qCounter.textContent = `Spørgsmål ${meta.qNumber}/${meta.qTotal}`;
   el.qStatus.textContent = "Gør klar...";
   el.qText.textContent = question.text;
@@ -193,27 +199,43 @@ function submitAnswer(answerIndex) {
   state.answered = true;
   setOptionsEnabled(false);
   el.answerHint.textContent = "✅ Svar sendt.";
-  socket.emit("answer", answerIndex);
+
+  // server expects: { optionIndex, clientMs }
+  socket.emit("answer", { optionIndex: answerIndex, clientMs: Date.now() });
 }
 
 function renderReveal(payload) {
-  el.correctText.textContent = payload.correctText;
+  // server sends correctIndex + answers[] with optionIndex, isCorrect, etc.
+  const correctIdx = payload.correctIndex;
+  const correctOpt =
+    state.question && state.question.options && Number.isFinite(correctIdx)
+      ? state.question.options[correctIdx]
+      : "(unknown)";
+  el.correctText.textContent = `✅ Correct: ${correctOpt}`;
+
   el.revealList.innerHTML = "";
 
-  payload.answers.forEach(a => {
+  (payload.answers || []).forEach(a => {
     const row = document.createElement("div");
     row.className = "list-item";
 
     const left = document.createElement("div");
-    left.textContent = a.name;
+    left.textContent = a.name + (a.isSpectator ? " (spectator)" : "");
 
     const right = document.createElement("div");
     right.className = "pill";
-    right.textContent = !a.didAnswer ? "No answer" : a.answerText;
+
+    const didAnswer = a.optionIndex !== null && a.optionIndex !== undefined;
+    const answerText =
+      didAnswer && state.question?.options?.[a.optionIndex] != null
+        ? state.question.options[a.optionIndex]
+        : "No answer";
+
+    right.textContent = answerText;
 
     const marker = document.createElement("span");
     marker.style.marginLeft = "10px";
-    marker.textContent = !a.didAnswer ? "⏳" : (a.isCorrect ? "✅" : "❌");
+    marker.textContent = !didAnswer ? "⏳" : a.isCorrect ? "✅" : "❌";
 
     row.appendChild(left);
 
@@ -253,93 +275,127 @@ function renderFinal(finalRows) {
 // ---- Buttons ----
 el.btnReadyLobby.onclick = () => {
   state.me.ready = !state.me.ready;
-  socket.emit("setReady", state.me.ready);
+
+  // server expects: { ready }
+  socket.emit("setReady", { ready: state.me.ready });
+
   el.btnReadyLobby.textContent = state.me.ready ? "Unready" : "Ready";
-  audio.playReady(); vibrate(UI.VIBRATE_MS_READY || 0);
+  audio.playReady();
+  vibrate(UI.VIBRATE_MS_READY || 0);
 };
 
 el.btnReadyReveal.onclick = () => {
   if (state.me.ready) return;
   state.me.ready = true;
-  socket.emit("setReady", true);
+
+  // server expects: { ready }
+  socket.emit("setReady", { ready: true });
+
   el.btnReadyReveal.disabled = true;
-  audio.playReady(); vibrate(UI.VIBRATE_MS_READY || 0);
+  audio.playReady();
+  vibrate(UI.VIBRATE_MS_READY || 0);
 };
 
 // ---- Socket events ----
-socket.on("joinAck", data => {
-  state.me.spectator = !!data.spectator;
-  if (state.me.spectator) {
-    el.lobbyHint.textContent = "Du er spectator (spillet er fyldt). Du kan se med, men ikke svare.";
-    el.btnReadyLobby.disabled = true;
-  } else {
-    el.lobbyHint.textContent = "";
-    el.btnReadyLobby.disabled = false;
-  }
+socket.on("gameError", payload => {
+  // Non-blocking: show lobby + hint
+  console.error("gameError:", payload);
+  el.lobbyHint.textContent = payload?.message || "Game error.";
+  showScreen(el.screenLobby);
+  hideRoundLabel();
+  stopTimer();
 });
 
-socket.on("lobbyUpdate", data => {
-  state.phase = data.phase;
-  state.cfgPublic = data.cfgPublic || null;
+socket.on("state", data => {
+  state.phase = data.phase || "lobby";
+  setPhaseBadge(state.phase);
 
-  setPhaseBadge(data.phase);
-  if (state.cfgPublic?.QUIZ_VERSION) el.version.textContent = state.cfgPublic.QUIZ_VERSION;
+  if (data.version) el.version.textContent = data.version;
 
-  if (data.phase === "lobby") {
+  // server uses isSpectator, client UI expects spectator
+  if (Array.isArray(data.players)) {
+    const mapped = data.players.map(p => ({
+      name: p.name,
+      spectator: !!p.isSpectator,
+      ready: !!p.ready
+    }));
+    renderPlayerList(mapped);
+
+    // update my spectator status if present
+    const me = data.players.find(p => p.id === socket.id);
+    if (me) state.me.spectator = !!me.isSpectator;
+  }
+
+  if (state.phase === "lobby") {
     hideRoundLabel();
     showScreen(el.screenLobby);
-    renderPlayerList(data.players);
+
+    // reset ready button UI locally
     state.me.ready = false;
     el.btnReadyLobby.textContent = "Ready";
+    el.btnReadyLobby.disabled = !!state.me.spectator;
+
     el.btnReadyReveal.disabled = false;
     stopTimer();
   }
 
-  if (data.phase === "question") {
+  if (state.phase === "question") {
     showScreen(el.screenQuestion);
   }
 
-  if (data.phase === "reveal") {
+  if (state.phase === "reveal") {
     hideRoundLabel();
     showScreen(el.screenReveal);
   }
 
-  if (data.phase === "gameover") {
+  if (state.phase === "final") {
     hideRoundLabel();
     showScreen(el.screenGameOver);
   }
 });
 
-socket.on("readyUpdate", data => {
-  if (data.phase === "lobby") renderPlayerList(data.players);
-});
-
-socket.on("newQuestion", payload => {
-  setPhaseBadge(payload.phase);
+socket.on("question", payload => {
+  setPhaseBadge("question");
   showScreen(el.screenQuestion);
   stopTimer();
 
   state.me.ready = false;
   el.btnReadyReveal.disabled = false;
 
-  renderQuestion(payload.question, payload.meta);
-});
+  const question = { text: payload.text, options: payload.options };
+  const meta = {
+    startAt: payload.startAt,
+    endAt: payload.endAt,
 
-socket.on("answerAck", () => {
-  // Intentionally no correctness shown (suspense)
+    // global counters
+    qNumber: payload.qGlobal || 1,
+    qTotal: payload.qGlobalTotal || 1,
+
+    // rounds
+    roundNumber: payload.roundNumber,
+    roundCount: payload.roundCount,
+    roundTitle: payload.roundTitle,
+    qInRound: payload.qInRound,
+    qInRoundTotal: payload.qInRoundTotal
+  };
+
+  renderQuestion(question, meta);
 });
 
 socket.on("reveal", payload => {
-  setPhaseBadge(payload.phase);
+  setPhaseBadge("reveal");
   showScreen(el.screenReveal);
   stopTimer();
+
   state.me.ready = false;
   renderReveal(payload);
 });
 
-socket.on("gameOver", payload => {
-  setPhaseBadge(payload.phase);
+socket.on("final", payload => {
+  setPhaseBadge("final");
   showScreen(el.screenGameOver);
   stopTimer();
-  renderFinal(payload.final || []);
+  hideRoundLabel();
+
+  renderFinal(payload.scoreboard || []);
 });
