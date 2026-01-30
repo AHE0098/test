@@ -19,6 +19,7 @@ const el = {
   btnReadyLobby: document.getElementById("btnReadyLobby"),
   lobbyHint: document.getElementById("lobbyHint"),
 
+  roundLabel: document.getElementById("roundLabel"),
   qCounter: document.getElementById("qCounter"),
   qStatus: document.getElementById("qStatus"),
   qText: document.getElementById("qText"),
@@ -83,6 +84,29 @@ function showScreen(which) {
   el.screenGameOver.classList.add("hidden");
   which.classList.remove("hidden");
 }
+function setRoundLabel(meta) {
+  if (!el.roundLabel) return;
+
+  // Server should include these in meta:
+  // meta.roundNumber, meta.roundCount, meta.roundTitle, meta.qInRound, meta.qInRoundTotal
+  if (!meta || !meta.roundNumber || !meta.roundCount) {
+    el.roundLabel.style.display = "none";
+    el.roundLabel.textContent = "";
+    return;
+  }
+
+  const title = meta.roundTitle ? ` — ${meta.roundTitle}` : "";
+  const qPart = (meta.qInRound && meta.qInRoundTotal) ? ` • Q ${meta.qInRound}/${meta.qInRoundTotal}` : "";
+
+  el.roundLabel.textContent = `Round ${meta.roundNumber}/${meta.roundCount}${title}${qPart}`;
+  el.roundLabel.style.display = "block";
+}
+
+function hideRoundLabel() {
+  if (!el.roundLabel) return;
+  el.roundLabel.style.display = "none";
+  el.roundLabel.textContent = "";
+}
 function renderPlayerList(players) {
   el.playerList.innerHTML = "";
   players.forEach(p => {
@@ -137,6 +161,8 @@ function renderQuestion(question, meta) {
   state.question = question;
   state.meta = meta;
 
+  setRoundLabel(meta); 
+  
   el.qCounter.textContent = `Spørgsmål ${meta.qNumber}/${meta.qTotal}`;
   el.qStatus.textContent = "Gør klar...";
   el.qText.textContent = question.text;
@@ -260,6 +286,7 @@ socket.on("lobbyUpdate", data => {
   if (state.cfgPublic?.QUIZ_VERSION) el.version.textContent = state.cfgPublic.QUIZ_VERSION;
 
   if (data.phase === "lobby") {
+    hideRoundLabel();
     showScreen(el.screenLobby);
     renderPlayerList(data.players);
     state.me.ready = false;
@@ -273,10 +300,12 @@ socket.on("lobbyUpdate", data => {
   }
 
   if (data.phase === "reveal") {
+    hideRoundLabel();
     showScreen(el.screenReveal);
   }
 
   if (data.phase === "gameover") {
+    hideRoundLabel();
     showScreen(el.screenGameOver);
   }
 });
