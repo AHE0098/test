@@ -43,7 +43,11 @@ const el = {
 
   // final
   finalList: document.getElementById("finalList"),
-  finalRestartBtn: document.getElementById("finalRestartBtn")
+  finalRestartBtn: document.getElementById("finalRestartBtn"),
+
+roundPickBox: document.getElementById("roundPickBox"),
+roundPickOptions: document.getElementById("roundPickOptions"),
+roundPickHint: document.getElementById("roundPickHint")
 };
 
 // ---- FX ----
@@ -175,6 +179,36 @@ function renderPlayers(players) {
     row.appendChild(name);
     row.appendChild(tag);
     el.playersList.appendChild(row);
+  });
+}
+function renderRoundPick(payload) {
+  // show lobby view so everyone sees picker
+  showView(el.viewLobby);
+
+  el.roundPickBox.classList.remove("hidden");
+  clearChildren(el.roundPickOptions);
+
+  const { availableRounds = [], voteCounts = {}, requiredVotes = 2, playedRoundCount = 0, totalRounds = 0 } = payload || {};
+
+  el.roundPickHint.textContent =
+    `Pick next round — starts when ${requiredVotes} player(s) choose the same. ` +
+    (totalRounds ? `(${playedRoundCount}/${totalRounds} rounds completed)` : "");
+
+  availableRounds.forEach(r => {
+    const btn = document.createElement("button");
+    btn.className = "btn";
+    const votes = voteCounts[r.setKey] || 0;
+    btn.textContent = `${r.title} (${r.questions} Q) — ${votes} vote${votes === 1 ? "" : "s"}`;
+
+    btn.disabled = state.me.isSpectator;
+
+    btn.onclick = () => {
+      socket.emit("chooseRound", { setKey: r.setKey });
+      // optional: optimistic hint
+      el.roundPickHint.textContent = `Voted for: ${r.title}…`;
+    };
+
+    el.roundPickOptions.appendChild(btn);
   });
 }
 
@@ -400,6 +434,13 @@ socket.on("gameError", payload => {
 });
 
 socket.on("state", data => {
+  // Hide round picker unless we explicitly show it via the "roundPick" event
+  if (el.roundPickBox) {
+    el.roundPickBox.classList.add("hidden");
+    if (el.roundPickOptions) el.roundPickOptions.innerHTML = "";
+    if (el.roundPickHint) el.roundPickHint.textContent = "";
+  }
+
   state.phase = data.phase || "lobby";
   setPhase(state.phase);
   if (data.version) setVersion(data.version);
@@ -429,8 +470,6 @@ socket.on("state", data => {
   }
 
   if (state.phase === "question") {
-    // question event will also force this view,
-    // but we allow phase-driven transitions too
     showView(el.viewQuestion);
   }
 
@@ -451,6 +490,12 @@ socket.on("question", payload => {
 socket.on("reveal", payload => {
   state.phase = "reveal";
   renderReveal(payload);
+});
+
+socket.on("roundPick", payload => {
+  state.phase = "roundpick";
+  setPhase("roundpick");
+  renderRoundPick(payload); // this function removes "hidden"
 });
 
 socket.on("final", payload => {
