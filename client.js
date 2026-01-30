@@ -243,7 +243,19 @@ function renderReveal(payload) {
   setPhase("reveal");
   stopTimer();
 
-  // show round label also on reveal (you have separate element)
+  // reset ready state
+  state.me.ready = false;
+
+  // enforce minimum reveal wait before enabling Ready (non-spectators only)
+  el.readyAfterRevealBtn.disabled = true;
+  const wait = Math.max(0, payload.revealMinMs || 0);
+  setTimeout(() => {
+    // Only enable if still in reveal view and not a spectator
+    if (state.phase !== "reveal") return;
+    el.readyAfterRevealBtn.disabled = state.me.isSpectator;
+  }, wait);
+
+  // round label
   const meta = {
     roundNumber: payload.roundNumber,
     roundCount: payload.roundCount,
@@ -253,7 +265,7 @@ function renderReveal(payload) {
   };
   setRoundLabel(el.revealRoundLabel, meta);
 
-  // correct answer text
+  // correct answer
   const correctIdx = payload.correctIndex;
   const correctOpt =
     state.question?.options && Number.isFinite(correctIdx)
@@ -298,13 +310,11 @@ function renderReveal(payload) {
     el.revealList.appendChild(row);
   });
 
-  // ready button state
-  state.me.ready = false;
-  el.readyAfterRevealBtn.disabled = state.me.isSpectator;
   el.revealHint.textContent = state.me.isSpectator
     ? "Du er spectator."
     : "Alle skal trykke Ready for næste spørgsmål.";
 }
+
 
 function renderFinal(scoreboard) {
   showView(el.viewFinal);
