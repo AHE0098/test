@@ -1,117 +1,40 @@
 // questions.js
-// =====================
-// Question packs live here.
-// Switch packs via CFG.QUESTION_SET_KEY in config.js
-// correctIndex is 0-based (0 = first option).
-// =====================
+// Interchangeable question packs live here.
 
 const QUESTION_SETS = {
   "party-dk-v1": {
     title: "Party DK (v1)",
-    description: "Let, sjovt, mobil-venligt (mix af DK + random facts).",
+    description: "Let, sjovt, mobil-venligt.",
     questions: [
-      {
-        id: "pd1",
-        text: "Hvilken planet kaldes ofte den røde planet?",
-        options: ["Jorden", "Mars", "Jupiter", "Venus"],
-        correctIndex: 1
-      },
-      {
-        id: "pd2",
-        text: "Hvad er hovedstaden i Danmark?",
-        options: ["Aarhus", "Odense", "København", "Aalborg"],
-        correctIndex: 2
-      },
-      {
-        id: "pd3",
-        text: "Hvad betyder 'PDF' typisk i dokument-sammenhæng?",
-        options: [
-          "Portable Document Format",
-          "Public Data Folder",
-          "Private Document Function",
-          "Print-Driven File"
-        ],
-        correctIndex: 0
-      },
-      {
-        id: "pd4",
-        text: "Hvilket dyr kan IKKE flyve?",
-        options: ["Flagermus", "Pingvin", "Kolibri", "Svale"],
-        correctIndex: 1
-      },
-      {
-        id: "pd5",
-        text: "Hvad er ca. kogepunktet for vand ved havniveau?",
-        options: ["80°C", "90°C", "100°C", "110°C"],
-        correctIndex: 2
-      },
-      {
-        id: "pd6",
-        text: "Hvilket land er kendt for at have byen Reykjavik som hovedstad?",
-        options: ["Norge", "Island", "Irland", "Finland"],
-        correctIndex: 1
-      },
-      {
-        id: "pd7",
-        text: "Hvilken af disse er typisk IKKE en primær farve i RGB?",
-        options: ["Rød", "Grøn", "Blå", "Gul"],
-        correctIndex: 3
-      },
-      {
-        id: "pd8",
-        text: "Hvad hedder den store bro mellem København og Malmø?",
-        options: ["Storebæltsbroen", "Øresundsbroen", "Lillebæltsbroen", "Kattegatbroen"],
-        correctIndex: 1
-      },
-      {
-        id: "pd9",
-        text: "Hvilket tal kommer efter 999?",
-        options: ["1000", "1001", "990", "1100"],
-        correctIndex: 0
-      },
-      {
-        id: "pd10",
-        text: "Hvis du har 10 sekunder, hvor mange millisekunder er det?",
-        options: ["100", "1.000", "10.000", "100.000"],
-        correctIndex: 2
-      }
+      { id: "pd1", text: "Hvilken planet kaldes ofte den røde planet?", options: ["Jorden", "Mars", "Jupiter", "Venus"], correctIndex: 1 },
+      { id: "pd2", text: "Hvad er hovedstaden i Danmark?", options: ["Aarhus", "Odense", "København", "Aalborg"], correctIndex: 2 },
+      { id: "pd3", text: "Hvad hedder Danmarks valuta?", options: ["Euro", "Kroner", "Pund", "Dollar"], correctIndex: 1 },
+      { id: "pd4", text: "Hvilket dyr siger 'mjau'?", options: ["Hund", "Kat", "Ko", "Får"], correctIndex: 1 },
+      { id: "pd5", text: "Hvilken farve får du ved at blande blå + gul?", options: ["Lilla", "Orange", "Grøn", "Brun"], correctIndex: 2 }
     ]
   },
 
   "science-nerd-v1": {
     title: "Science Nerd (v1)",
-    description: "Lidt mere nørdet, stadig hurtig og sjov.",
+    description: "Lidt nørdet, lidt smart.",
     questions: [
-      {
-        id: "sn1",
-        text: "Hvilken partikel har negativ ladning?",
-        options: ["Proton", "Neutron", "Elektron", "Positron"],
-        correctIndex: 2
-      },
-      {
-        id: "sn2",
-        text: "Hvilket grundstof har symbolet 'Fe'?",
-        options: ["Fluor", "Fosfor", "Jern", "Fermium"],
-        correctIndex: 2
-      },
-      {
-        id: "sn3",
-        text: "Hvilken af disse er IKKE en tilstandsform?",
-        options: ["Fast", "Flydende", "Gas", "Lys"],
-        correctIndex: 3
-      },
-      {
-        id: "sn4",
-        text: "Hvad er den mest udbredte gas i Jordens atmosfære (ca.)?",
-        options: ["Oxygen", "Nitrogen", "Kuldioxid", "Argon"],
-        correctIndex: 1
-      },
-      {
-        id: "sn5",
-        text: "Hvilken enhed måler elektrisk strøm?",
-        options: ["Volt", "Ohm", "Ampere", "Watt"],
-        correctIndex: 2
-      }
+      { id: "sn1", text: "Hvad er kemisk symbol for vand?", options: ["O2", "CO2", "H2O", "NaCl"], correctIndex: 2 },
+      { id: "sn2", text: "Hvad måler en volt?", options: ["Strøm", "Spænding", "Modstand", "Effekt"], correctIndex: 1 },
+      { id: "sn3", text: "Hvilken partikel har negativ ladning?", options: ["Proton", "Neutron", "Elektron", "Foton"], correctIndex: 2 },
+      { id: "sn4", text: "Hvor mange minutter er der i en time?", options: ["50", "60", "70", "80"], correctIndex: 1 },
+      { id: "sn5", text: "Hvad er 2^3?", options: ["6", "8", "9", "12"], correctIndex: 1 }
+    ]
+  },
+
+  "spicy-meds-v1": {
+    title: "Spicy Meds (v1)",
+    description: "Læge-nørd med lidt attitude.",
+    questions: [
+      { id: "sm1", text: "Hvilket organ producerer insulin?", options: ["Lever", "Pankreas", "Nyre", "Lunge"], correctIndex: 1 },
+      { id: "sm2", text: "Hvad står EKG for?", options: ["Electrocardiogram", "Electrocapillary graph", "Endocrine control guide", "Emergency care grid"], correctIndex: 0 },
+      { id: "sm3", text: "Normal voksen RF er ca.?", options: ["2-4", "12-20", "30-40", "50-60"], correctIndex: 1 },
+      { id: "sm4", text: "Hvilket er et penicillin?", options: ["Amoxicillin", "Ciprofloxacin", "Doxycycline", "Gentamicin"], correctIndex: 0 },
+      { id: "sm5", text: "Hvad er max GCS?", options: ["10", "12", "15", "20"], correctIndex: 2 }
     ]
   }
 };
