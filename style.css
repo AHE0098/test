@@ -260,7 +260,7 @@ body:not(.debug) .topbar .meta {
 }
 
 /* Optional status dot (only if you added #statusDot) */
-.dot {
+#statusDot{
   width: 10px;
   height: 10px;
   border-radius: 999px;
