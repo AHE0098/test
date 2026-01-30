@@ -1,41 +1,52 @@
 // client.js
 // =====================
-// Client: UI + Socket events (matches current server.js events/payloads)
+// Client: UI + Socket events (matches index.html IDs + current server.js events)
 // =====================
 
 const UI = window.UI_CFG || { TIMER_TICK_MS: 50 };
 
 // ---- DOM ----
 const el = {
-  version: document.getElementById("version"),
-  phaseBadge: document.getElementById("phaseBadge"),
+  // topbar
+  versionTag: document.getElementById("versionTag"),
+  phaseTag: document.getElementById("phaseTag"),
 
-  screenLobby: document.getElementById("screenLobby"),
-  screenQuestion: document.getElementById("screenQuestion"),
-  screenReveal: document.getElementById("screenReveal"),
-  screenGameOver: document.getElementById("screenGameOver"),
+  // views
+  viewLobby: document.getElementById("viewLobby"),
+  viewQuestion: document.getElementById("viewQuestion"),
+  viewReveal: document.getElementById("viewReveal"),
+  viewFinal: document.getElementById("viewFinal"),
 
-  playerList: document.getElementById("playerList"),
-  btnReadyLobby: document.getElementById("btnReadyLobby"),
-  lobbyHint: document.getElementById("lobbyHint"),
+  // lobby
+  nameInput: document.getElementById("nameInput"),
+  joinBtn: document.getElementById("joinBtn"),
+  playerCount: document.getElementById("playerCount"),
+  youTag: document.getElementById("youTag"),
+  playersList: document.getElementById("playersList"),
+  readyBtn: document.getElementById("readyBtn"),
+  restartBtn: document.getElementById("restartBtn"),
+  lobbyInfo: document.getElementById("lobbyInfo"),
 
+  // question
   roundLabel: document.getElementById("roundLabel"),
-  qCounter: document.getElementById("qCounter"),
-  qStatus: document.getElementById("qStatus"),
-  qText: document.getElementById("qText"),
+  questionText: document.getElementById("questionText"),
+  timerInner: document.getElementById("timerInner"),
   options: document.getElementById("options"),
-  answerHint: document.getElementById("answerHint"),
-  timerBar: document.getElementById("timerBar"),
+  questionHint: document.getElementById("questionHint"),
 
-  correctText: document.getElementById("correctText"),
+  // reveal
+  revealRoundLabel: document.getElementById("revealRoundLabel"),
+  correctAnswer: document.getElementById("correctAnswer"),
   revealList: document.getElementById("revealList"),
-  btnReadyReveal: document.getElementById("btnReadyReveal"),
+  readyAfterRevealBtn: document.getElementById("readyAfterRevealBtn"),
   revealHint: document.getElementById("revealHint"),
 
-  finalList: document.getElementById("finalList")
+  // final
+  finalList: document.getElementById("finalList"),
+  finalRestartBtn: document.getElementById("finalRestartBtn")
 };
 
-// ---- Simple FX chunk ----
+// ---- FX ----
 const audio = {
   ready: new Audio((UI && UI.SOUND_READY_URL) || ""),
   playReady() {
@@ -54,86 +65,55 @@ function vibrate(ms) {
 
 // ---- State ----
 const state = {
+  joined: false,
   phase: "lobby",
-  me: { name: "", spectator: false, ready: false },
-  timerInterval: null,
+  me: { name: "", isSpectator: false, ready: false },
+
+  // current Q
   answered: false,
+  question: null,
   meta: null,
-  question: null
+
+  // timer
+  timerInterval: null
 };
 
 // ---- Socket ----
 const socket = io();
 
-function askName() {
-  const raw = prompt("Navn (max 24 tegn):") || "Player";
-  return raw.toString().slice(0, 24);
-}
-
-state.me.name = askName();
-socket.emit("join", { name: state.me.name });
-
 // ---- UI helpers ----
-function setPhaseBadge(text) {
-  el.phaseBadge.textContent = text;
+function setPhase(text) {
+  el.phaseTag.textContent = text || "—";
 }
 
-function showScreen(which) {
-  el.screenLobby.classList.add("hidden");
-  el.screenQuestion.classList.add("hidden");
-  el.screenReveal.classList.add("hidden");
-  el.screenGameOver.classList.add("hidden");
+function setVersion(v) {
+  el.versionTag.textContent = v ? `v${v}` : "v?";
+}
+
+function showView(which) {
+  el.viewLobby.classList.add("hidden");
+  el.viewQuestion.classList.add("hidden");
+  el.viewReveal.classList.add("hidden");
+  el.viewFinal.classList.add("hidden");
   which.classList.remove("hidden");
 }
 
-function setRoundLabel(meta) {
-  if (!el.roundLabel) return;
+function clearChildren(node) {
+  node.innerHTML = "";
+}
 
+function setRoundLabel(node, meta) {
+  if (!node) return;
   if (!meta || !meta.roundNumber || !meta.roundCount) {
-    el.roundLabel.style.display = "none";
-    el.roundLabel.textContent = "";
+    node.textContent = "";
+    node.style.display = "none";
     return;
   }
-
   const title = meta.roundTitle ? ` — ${meta.roundTitle}` : "";
   const qPart =
     meta.qInRound && meta.qInRoundTotal ? ` • Q ${meta.qInRound}/${meta.qInRoundTotal}` : "";
-
-  el.roundLabel.textContent = `Round ${meta.roundNumber}/${meta.roundCount}${title}${qPart}`;
-  el.roundLabel.style.display = "block";
-}
-
-function hideRoundLabel() {
-  if (!el.roundLabel) return;
-  el.roundLabel.style.display = "none";
-  el.roundLabel.textContent = "";
-}
-
-function renderPlayerList(players) {
-  el.playerList.innerHTML = "";
-  players.forEach(p => {
-    const row = document.createElement("div");
-    row.className = "list-item";
-
-    const left = document.createElement("div");
-    left.textContent = p.name + (p.spectator ? " (spectator)" : "");
-
-    const right = document.createElement("div");
-    right.className = "pill";
-    right.textContent = p.spectator ? "watching" : (p.ready ? "Ready" : "Not ready");
-
-    row.appendChild(left);
-    row.appendChild(right);
-    el.playerList.appendChild(row);
-  });
-}
-
-function clearOptions() {
-  el.options.innerHTML = "";
-}
-
-function setOptionsEnabled(enabled) {
-  [...el.options.querySelectorAll("button")].forEach(b => (b.disabled = !enabled));
+  node.textContent = `Round ${meta.roundNumber}/${meta.roundCount}${title}${qPart}`;
+  node.style.display = "block";
 }
 
 function stopTimer() {
@@ -149,12 +129,15 @@ function startTimerBar(startAt, endAt) {
     const total = endAt - startAt;
     const remaining = Math.max(0, endAt - now);
     const ratio = total > 0 ? remaining / total : 0;
-    el.timerBar.style.width = `${Math.max(0, Math.min(1, ratio)) * 100}%`;
+
+    if (el.timerInner) {
+      el.timerInner.style.width = `${Math.max(0, Math.min(1, ratio)) * 100}%`;
+    }
 
     if (now >= endAt) {
       stopTimer();
-      setOptionsEnabled(false);
-      if (!state.answered) el.answerHint.textContent = "⏳ Tiden er gået.";
+      disableOptions();
+      if (!state.answered) el.questionHint.textContent = "⏳ Tiden er gået.";
     }
   }
 
@@ -162,68 +145,138 @@ function startTimerBar(startAt, endAt) {
   state.timerInterval = setInterval(tick, UI.TIMER_TICK_MS || 50);
 }
 
-function renderQuestion(question, meta) {
+function disableOptions() {
+  [...el.options.querySelectorAll("button")].forEach(b => (b.disabled = true));
+}
+
+function enableOptions() {
+  [...el.options.querySelectorAll("button")].forEach(b => (b.disabled = false));
+}
+
+function renderPlayers(players) {
+  // count + list
+  const activeCount = players.filter(p => p.connected && !p.isSpectator).length;
+  el.playerCount.textContent = String(activeCount);
+
+  clearChildren(el.playersList);
+
+  players.forEach(p => {
+    const row = document.createElement("div");
+    row.className = "player-row";
+
+    const name = document.createElement("div");
+    name.className = "player-name";
+    name.textContent = p.name + (p.isSpectator ? " (spectator)" : "");
+
+    const tag = document.createElement("div");
+    tag.className = "pill";
+    tag.textContent = p.isSpectator ? "watching" : (p.ready ? "Ready" : "Not ready");
+
+    row.appendChild(name);
+    row.appendChild(tag);
+    el.playersList.appendChild(row);
+  });
+}
+
+function renderQuestion(payload) {
+  // payload is server "question" event
   state.answered = false;
-  state.question = question;
-  state.meta = meta;
 
-  setRoundLabel(meta);
+  state.question = { text: payload.text, options: payload.options };
+  state.meta = {
+    startAt: payload.startAt,
+    endAt: payload.endAt,
+    qNumber: payload.qGlobal || 1,
+    qTotal: payload.qGlobalTotal || 1,
+    roundNumber: payload.roundNumber,
+    roundCount: payload.roundCount,
+    roundTitle: payload.roundTitle,
+    qInRound: payload.qInRound,
+    qInRoundTotal: payload.qInRoundTotal
+  };
 
-  el.qCounter.textContent = `Spørgsmål ${meta.qNumber}/${meta.qTotal}`;
-  el.qStatus.textContent = "Gør klar...";
-  el.qText.textContent = question.text;
-  el.answerHint.textContent = "";
-  clearOptions();
+  showView(el.viewQuestion);
+  setPhase("question");
+  el.questionHint.textContent = "";
+  el.questionText.textContent = state.question.text;
 
-  question.options.forEach((opt, idx) => {
+  setRoundLabel(el.roundLabel, state.meta);
+
+  // options
+  clearChildren(el.options);
+  state.question.options.forEach((opt, idx) => {
     const btn = document.createElement("button");
-    btn.className = "btn option";
+    btn.className = "btn";
     btn.textContent = opt;
     btn.disabled = true;
     btn.onclick = () => submitAnswer(idx);
     el.options.appendChild(btn);
   });
 
-  setOptionsEnabled(false);
-  startTimerBar(meta.startAt, meta.endAt);
+  disableOptions();
 
-  const msToStart = Math.max(0, meta.startAt - Date.now());
+  // timer
+  startTimerBar(state.meta.startAt, state.meta.endAt);
+
+  // fairness window
+  const msToStart = Math.max(0, state.meta.startAt - Date.now());
   setTimeout(() => {
-    el.qStatus.textContent = "Svar nu!";
-    setOptionsEnabled(true);
+    // still on question screen?
+    if (state.phase !== "question") return;
+    el.questionHint.textContent = "Svar nu!";
+    enableOptions();
   }, msToStart);
 }
 
-function submitAnswer(answerIndex) {
+function submitAnswer(optionIndex) {
   if (state.answered) return;
   state.answered = true;
-  setOptionsEnabled(false);
-  el.answerHint.textContent = "✅ Svar sendt.";
 
-  // server expects: { optionIndex, clientMs }
-  socket.emit("answer", { optionIndex: answerIndex, clientMs: Date.now() });
+  disableOptions();
+  el.questionHint.textContent = "✅ Svar sendt.";
+
+  socket.emit("answer", { optionIndex, clientMs: Date.now() });
 }
 
 function renderReveal(payload) {
-  // server sends correctIndex + answers[] with optionIndex, isCorrect, etc.
+  showView(el.viewReveal);
+  setPhase("reveal");
+  stopTimer();
+
+  // show round label also on reveal (you have separate element)
+  const meta = {
+    roundNumber: payload.roundNumber,
+    roundCount: payload.roundCount,
+    roundTitle: payload.roundTitle,
+    qInRound: payload.qInRound,
+    qInRoundTotal: payload.qInRoundTotal
+  };
+  setRoundLabel(el.revealRoundLabel, meta);
+
+  // correct answer text
   const correctIdx = payload.correctIndex;
   const correctOpt =
-    state.question && state.question.options && Number.isFinite(correctIdx)
+    state.question?.options && Number.isFinite(correctIdx)
       ? state.question.options[correctIdx]
-      : "(unknown)";
-  el.correctText.textContent = `✅ Correct: ${correctOpt}`;
+      : "—";
+  el.correctAnswer.textContent = correctOpt;
 
-  el.revealList.innerHTML = "";
+  // answers list
+  clearChildren(el.revealList);
 
   (payload.answers || []).forEach(a => {
     const row = document.createElement("div");
-    row.className = "list-item";
+    row.className = "reveal-row";
 
     const left = document.createElement("div");
+    left.className = "reveal-name";
     left.textContent = a.name + (a.isSpectator ? " (spectator)" : "");
 
-    const right = document.createElement("div");
-    right.className = "pill";
+    const rightWrap = document.createElement("div");
+    rightWrap.className = "reveal-right";
+
+    const pill = document.createElement("div");
+    pill.className = "pill";
 
     const didAnswer = a.optionIndex !== null && a.optionIndex !== undefined;
     const answerText =
@@ -231,33 +284,38 @@ function renderReveal(payload) {
         ? state.question.options[a.optionIndex]
         : "No answer";
 
-    right.textContent = answerText;
+    pill.textContent = answerText;
 
     const marker = document.createElement("span");
     marker.style.marginLeft = "10px";
-    marker.textContent = !didAnswer ? "⏳" : a.isCorrect ? "✅" : "❌";
+    marker.textContent = !didAnswer ? "⏳" : (a.isCorrect ? "✅" : "❌");
+
+    rightWrap.appendChild(pill);
+    rightWrap.appendChild(marker);
 
     row.appendChild(left);
-
-    const rWrap = document.createElement("div");
-    rWrap.style.display = "flex";
-    rWrap.style.alignItems = "center";
-    rWrap.appendChild(right);
-    rWrap.appendChild(marker);
-
-    row.appendChild(rWrap);
+    row.appendChild(rightWrap);
     el.revealList.appendChild(row);
   });
 
-  el.btnReadyReveal.disabled = state.me.ready;
-  el.revealHint.textContent = "Alle skal trykke Ready for næste spørgsmål.";
+  // ready button state
+  state.me.ready = false;
+  el.readyAfterRevealBtn.disabled = state.me.isSpectator;
+  el.revealHint.textContent = state.me.isSpectator
+    ? "Du er spectator."
+    : "Alle skal trykke Ready for næste spørgsmål.";
 }
 
-function renderFinal(finalRows) {
-  el.finalList.innerHTML = "";
-  finalRows.forEach((p, i) => {
+function renderFinal(scoreboard) {
+  showView(el.viewFinal);
+  setPhase("final");
+  stopTimer();
+
+  clearChildren(el.finalList);
+
+  (scoreboard || []).forEach((p, i) => {
     const row = document.createElement("div");
-    row.className = "list-item";
+    row.className = "final-row";
 
     const left = document.createElement("div");
     left.textContent = `${i + 1}. ${p.name}`;
@@ -272,130 +330,120 @@ function renderFinal(finalRows) {
   });
 }
 
-// ---- Buttons ----
-el.btnReadyLobby.onclick = () => {
-  state.me.ready = !state.me.ready;
+// ---- Lobby actions ----
+el.joinBtn.onclick = () => {
+  const name = String(el.nameInput.value || "").trim().slice(0, 18);
+  if (!name) {
+    el.lobbyInfo.textContent = "Skriv et navn først 🙂";
+    return;
+  }
+  state.me.name = name;
+  socket.emit("join", { name });
+  state.joined = true;
+  el.lobbyInfo.textContent = "Joined.";
+};
 
-  // server expects: { ready }
+el.readyBtn.onclick = () => {
+  if (state.me.isSpectator) return;
+
+  state.me.ready = !state.me.ready;
   socket.emit("setReady", { ready: state.me.ready });
 
-  el.btnReadyLobby.textContent = state.me.ready ? "Unready" : "Ready";
+  el.readyBtn.textContent = state.me.ready ? "Unready" : "Ready";
   audio.playReady();
   vibrate(UI.VIBRATE_MS_READY || 0);
 };
 
-el.btnReadyReveal.onclick = () => {
-  if (state.me.ready) return;
-  state.me.ready = true;
+el.restartBtn.onclick = () => {
+  // server guards host-only
+  socket.emit("restartLobby");
+};
 
-  // server expects: { ready }
+// ---- Reveal ready ----
+el.readyAfterRevealBtn.onclick = () => {
+  if (state.me.isSpectator) return;
+  if (state.me.ready) return;
+
+  state.me.ready = true;
   socket.emit("setReady", { ready: true });
 
-  el.btnReadyReveal.disabled = true;
+  el.readyAfterRevealBtn.disabled = true;
   audio.playReady();
   vibrate(UI.VIBRATE_MS_READY || 0);
+};
+
+// ---- Final restart ----
+el.finalRestartBtn.onclick = () => {
+  // server guards host-only
+  socket.emit("restartLobby");
 };
 
 // ---- Socket events ----
 socket.on("gameError", payload => {
-  // Non-blocking: show lobby + hint
   console.error("gameError:", payload);
-  el.lobbyHint.textContent = payload?.message || "Game error.";
-  showScreen(el.screenLobby);
-  hideRoundLabel();
+  showView(el.viewLobby);
+  setPhase("lobby");
   stopTimer();
+  setRoundLabel(el.roundLabel, null);
+  setRoundLabel(el.revealRoundLabel, null);
+  el.lobbyInfo.textContent = payload?.message || "Game error.";
 });
 
 socket.on("state", data => {
   state.phase = data.phase || "lobby";
-  setPhaseBadge(state.phase);
+  setPhase(state.phase);
+  if (data.version) setVersion(data.version);
 
-  if (data.version) el.version.textContent = data.version;
-
-  // server uses isSpectator, client UI expects spectator
+  // update my spectator status if server includes my record
   if (Array.isArray(data.players)) {
-    const mapped = data.players.map(p => ({
-      name: p.name,
-      spectator: !!p.isSpectator,
-      ready: !!p.ready
-    }));
-    renderPlayerList(mapped);
-
-    // update my spectator status if present
     const me = data.players.find(p => p.id === socket.id);
-    if (me) state.me.spectator = !!me.isSpectator;
+    if (me) {
+      state.me.isSpectator = !!me.isSpectator;
+      el.youTag.textContent = state.me.isSpectator ? "spectator" : (state.me.ready ? "Ready" : "—");
+    }
+    renderPlayers(data.players);
   }
 
+  // view switching based on phase
   if (state.phase === "lobby") {
-    hideRoundLabel();
-    showScreen(el.screenLobby);
-
-    // reset ready button UI locally
-    state.me.ready = false;
-    el.btnReadyLobby.textContent = "Ready";
-    el.btnReadyLobby.disabled = !!state.me.spectator;
-
-    el.btnReadyReveal.disabled = false;
+    showView(el.viewLobby);
     stopTimer();
+    setRoundLabel(el.roundLabel, null);
+    setRoundLabel(el.revealRoundLabel, null);
+
+    // spectators can't ready
+    el.readyBtn.disabled = !!state.me.isSpectator;
+
+    // keep button label consistent
+    el.readyBtn.textContent = state.me.ready ? "Unready" : "Ready";
   }
 
   if (state.phase === "question") {
-    showScreen(el.screenQuestion);
+    // question event will also force this view,
+    // but we allow phase-driven transitions too
+    showView(el.viewQuestion);
   }
 
   if (state.phase === "reveal") {
-    hideRoundLabel();
-    showScreen(el.screenReveal);
+    showView(el.viewReveal);
   }
 
   if (state.phase === "final") {
-    hideRoundLabel();
-    showScreen(el.screenGameOver);
+    showView(el.viewFinal);
   }
 });
 
 socket.on("question", payload => {
-  setPhaseBadge("question");
-  showScreen(el.screenQuestion);
-  stopTimer();
-
-  state.me.ready = false;
-  el.btnReadyReveal.disabled = false;
-
-  const question = { text: payload.text, options: payload.options };
-  const meta = {
-    startAt: payload.startAt,
-    endAt: payload.endAt,
-
-    // global counters
-    qNumber: payload.qGlobal || 1,
-    qTotal: payload.qGlobalTotal || 1,
-
-    // rounds
-    roundNumber: payload.roundNumber,
-    roundCount: payload.roundCount,
-    roundTitle: payload.roundTitle,
-    qInRound: payload.qInRound,
-    qInRoundTotal: payload.qInRoundTotal
-  };
-
-  renderQuestion(question, meta);
+  state.phase = "question";
+  renderQuestion(payload);
 });
 
 socket.on("reveal", payload => {
-  setPhaseBadge("reveal");
-  showScreen(el.screenReveal);
-  stopTimer();
-
-  state.me.ready = false;
+  state.phase = "reveal";
   renderReveal(payload);
 });
 
 socket.on("final", payload => {
-  setPhaseBadge("final");
-  showScreen(el.screenGameOver);
-  stopTimer();
-  hideRoundLabel();
-
+  state.phase = "final";
   renderFinal(payload.scoreboard || []);
 });
