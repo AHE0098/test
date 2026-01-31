@@ -17,13 +17,13 @@ const REQUIRE_READY_IN_LOBBY = true;
 const REQUIRE_READY_AFTER_REVEAL = true;
 
 // --- Scoring ---
-const SCORE_CORRECT_BASE = 1000;
+const SCORE_CORRECT_BASE = 1;
 const SCORE_WRONG = 0;
 const SCORE_NO_ANSWER = 0;
 
 // Speed bonus: points proportional to remaining fraction of time.
 // Example: if SPEED_BONUS_MAX=500, answering instantly yields +500, at the buzzer yields ~0.
-const SPEED_BONUS_ENABLED = true;
+const SPEED_BONUS_ENABLED = false;
 const SPEED_BONUS_MAX = 500;
 
 // --- Question behavior ---
