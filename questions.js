@@ -3,7 +3,7 @@
 
 const QUESTION_SETS = {
   "party-dk-v1": {
-    title: "Party DK (v1)",
+    title: "KBU",
     description: "Let, sjovt, mobil-venligt.",
     questions: [
       { id: "pd1", text: "Hvad betragtes som et normalt blodtryk for en voksen?", options: [ "Ca. 120/80 mmHg", "Ca. 180/110 mmHg", "Ca. 150/90 mmHg", "Ca. 90/60 mmHg" ], correctIndex: 0},
@@ -40,7 +40,7 @@ const QUESTION_SETS = {
   },
 
   "science-nerd-v1": {
-    title: "Science Nerd (v1)",
+    title: "Introlæge",
     description: "Lidt nørdet, lidt smart.",
     questions: [
       { id: "sn1", text: "En patient har hyperthyreose og exophthalmus (udstående øjne). Hvilken sygdom er mest sandsynlig?", options: [ "Hashimotos thyroiditis", "Graves' sygdom (Basedows)", "Subakut (De Quervain) thyroiditis", "Toksisk multinodøs struma" ], correctIndex: 1 },
@@ -77,7 +77,7 @@ const QUESTION_SETS = {
   },
 
   "spicy-meds-v1": {
-    title: "Spicy Meds (v1)",
+    title: "Overlægen(t)",
     description: "Læge-nørd med lidt attitude.",
     questions: [
       { id: "sm1", text: "Hvad betyder det, hvis p-værdien i et studie er 0,03?", options: [ "At studiet har en styrke (power) på 97%", "At sandsynligheden for at resultatet skyldes tilfældighed er 3% (statistisk signifikant)", "At nulhypotesen er sand med 97% sandsynlighed", "At 3% af forsøgspersonerne oplevede effekt" ], correctIndex: 1 },
