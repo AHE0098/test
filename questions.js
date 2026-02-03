@@ -1794,6 +1794,6 @@ const QUESTION_SETS = {
     "needsReview": false
   }
 ]
-};
+}
 
 module.exports = { QUESTION_SETS };
