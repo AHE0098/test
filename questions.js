@@ -3,115 +3,1797 @@
 
 const QUESTION_SETS = {
   "party-dk-v1": {
-    title: "KBU",
-    description: "Let, sjovt, mobil-venligt.",
-    questions: [
-      { id: "pd1", text: "Hvad betragtes som et normalt blodtryk for en voksen?", options: [ "Ca. 120/80 mmHg", "Ca. 180/110 mmHg", "Ca. 150/90 mmHg", "Ca. 90/60 mmHg" ], correctIndex: 0},
-      { id: "pd2", text: "Hvad er førstevalgsbehandling ved anafylaktisk chok?", options: [ "Intramuskulær adrenalin", "Inhalation med beta-2 agonist", "Intravenøs antihistamin", "Intravenøs glukokortikoid" ], correctIndex: 0 },
-      { id: "pd3", text: "Hvilken type diabetes kræver altid insulinbehandling?", options: [ "Diabetes insipidus", "Type 2-diabetes", "Type 1-diabetes", "Gestationel diabetes" ], correctIndex: 2 },
-      { id: "pd4", text: "Mangel på hvilket vitamin forårsager sygdommen skørbug?", options: [ "D-vitamin", "B1-vitamin", "C-vitamin", "A-vitamin" ], correctIndex: 2 },
-      { id: "pd5", text: "Hvilket lægemiddel bruges som antidot ved opioid-overdosis?", options: [ "Naloxon", "Flumazenil", "N-acetylcystein", "Atropin" ], correctIndex: 0 },
-      { id: "pd6", text: "Hvad er kroppens største organ?", options: [ "Hjernen", "Huden", "Leveren", "Hjertet" ], correctIndex: 1 },
-      { id: "pd7", text: "Hvilken blodtype er universel donor?", options: [ "0-negativ", "0-positiv", "AB-positiv", "A-negativ" ], correctIndex: 0 },
-      { id: "pd8", text: "Hvad står 'A' for i ABCDE-princippet i akutmedicin?", options: [ "Airway (frie luftveje)", "Allergi", "Alarm", "Apnø" ], correctIndex: 0 },
-      { id: "pd9", text: "Hvilken sygdom er kendetegnet ved tremor, rigiditet og langsomme bevægelser (bradykinesi)?", options: [ "Epilepsi", "Alzheimers sygdom", "Apopleksi", "Parkinsons sygdom" ], correctIndex: 3 },
-      { id: "pd10", text: "Hvad er det laveste antal point en patient kan have på Glasgow Coma Scale (GCS)?", options: [ "1", "0", "5", "3" ], correctIndex: 3 },
-      { id: "pd11", text: "Hvilken hjernenerve innerverer ansigtets mimiske muskler?", options: [ "N. facialis (VII)", "N. trigeminus (V)", "N. oculomotorius (III)", "N. vagus (X)" ], correctIndex: 0 },
-      { id: "pd12", text: "Hvilken sygdom er den hyppigste dødsårsag globalt?", options: [ "Lungekræft", "Slagtilfælde (stroke)", "Iskæmisk hjertesygdom", "Trafikulykker" ], correctIndex: 2 },
-      { id: "pd13", text: "En patient hyperventilerer og klager over prikken i fingrene. Hvilken syre-baseforstyrrelse er mest sandsynlig?", options: [ "Respiratorisk acidose", "Metabolisk acidose", "Respiratorisk alkalose", "Metabolisk alkalose" ], correctIndex: 2 },
-      { id: "pd14", text: "Hvad er førstevalg af billeddiagnostik ved mistanke om pneumothorax?", options: [ "CT-skanning", "Røntgen af thorax", "Ultralydsskanning", "MR-skanning" ], correctIndex: 1 },
-      { id: "pd15", text: "Hvilket vitamin anbefales som tilskud til gravide for at forebygge neuralrørsdefekter?", options: [ "Folinsyre (B9)", "Vitamin B12", "Jern", "Vitamin D" ], correctIndex: 0 },
-      { id: "pd16", text: "Hvad hedder knæskallen på latin?", options: [ "Patella", "Fibula", "Femur", "Tibia" ], correctIndex: 0 },
-      { id: "pd17", text: "Hvad kaldes en fraktur, hvor knogle-enderne penetrerer huden?", options: [ "Åben fraktur", "Lukket fraktur", "Greenstick-fraktur", "Stressfraktur" ], correctIndex: 0 },
-      { id: "pd18", text: "Hvilken knogle brækker typisk ved fald på udstrakt arm hos en ældre person?", options: [ "Clavicula", "Femur", "Calcaneus", "Distal radius" ], correctIndex: 3 },
-      { id: "pd19", text: "Hvad er den længste knogle i menneskekroppen?", options: [ "Femur (lårben)", "Tibia (skinneben)", "Columna (rygsøjlen)", "Humerus (overarmsknogle)" ], correctIndex: 0 },
-      { id: "pd20", text: "Hvilken nerve risikerer man at lædere ved et brud midt på humerus?", options: [ "N. radialis", "N. medianus", "N. ulnaris", "N. axillaris" ], correctIndex: 0 },
-      { id: "pd21", text: "Hvad er ACL i knæet en forkortelse for?", options: [ "Forreste korsbånd", "Menisken", "Bageste korsbånd", "Indvendige sideledbånd" ], correctIndex: 0 },
-      { id: "pd22", text: "Hvilken tilstand skyldes kompression af n. medianus ved håndleddet?", options: [ "Karpaltunnelsyndrom", "Thoracic outlet syndrom", "Kubitaltunnelsyndrom", "Tennisalbue" ], correctIndex: 0 },
-      { id: "pd23", text: "Hvad kaldes \"tennisalbue\" med et medicinsk udtryk?", options: [ "Rotator cuff syndrom", "Medial epikondylit", "Olecranon bursit", "Lateral epikondylit" ], correctIndex: 3 },
-      { id: "pd24", text: "En 40-årig mand hører et smæld i læggen under badminton og kan ikke længere stå på tæer. Hvilken skade er mest sandsynlig?", options: [ "Brud på hælbenet (calcaneus)", "Forstuvning af anklen", "Lægmuskel fibersprængning", "Overrivning af akillessenen" ], correctIndex: 3 },
-      { id: "pd25", text: "I hvilken retning går skulderen typisk af led ved en luksation?", options: [ "Inferiort (nedad)", "Superiort (opad)", "Anteriort (fremad)", "Posteriort (bagud)" ], correctIndex: 2 },
-      { id: "pd26", text: "Hvilken kræftform er den hyppigste hos kvinder i Danmark?", options: [ "Brystkræft", "Hudkræft", "Lungekræft", "Tarmkræft" ], correctIndex: 0 },
-      { id: "pd27", text: "For hvilken kræftsygdom anvendes PSA (prostataspecifikt antigen) som markør?", options: [ "Tyk- og endetarmskræft", "Brystkræft", "Leverkræft", "Prostatakræft" ], correctIndex: 3 },
-      { id: "pd28", text: "Hvilken virus kan forårsage livmoderhalskræft?", options: [ "Hepatitis C", "HPV (Human Papillomavirus)", "HIV", "Epstein-Barr virus" ], correctIndex: 1 },
-      { id: "pd29", text: "Hvad står 'M' for i TNM-klassifikationen af kræft?", options: [ "Multiple tumorer", "Fjernmetastaser", "Målrecidiv", "Masse (tumorstørrelse)" ], correctIndex: 1 },
-      { id: "pd30", text: "Hvilken behandlingsform bruger høj-energi stråling til at dræbe kræftceller?", options: [ "Immunterapi", "Strålebehandling", "Kirurgisk fjernelse", "Kemoterapi" ], correctIndex: 1 }
-    ]
+    title: "ORT-KIR",
+    description: "HVADSNAKKERDUOM",
+    questions: 
+      
+[
+  {
+    "id": "ort_001",
+    "text": "Hvad forstås ved en åben fraktur?",
+    "options": [
+      "En fraktur med forbindelse fra knogleoverfladen til omgivelserne gennem et sår",
+      "En fraktur hvor der samtidig ses en luksation af et led",
+      "En fraktur der kun kan påvises på røntgen",
+      "En fraktur med mindst tre knoglefragmenter"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "kerneviden",
+    "topicId": "open_fracture",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
   },
-
-  "science-nerd-v1": {
-    title: "Introlæge",
-    description: "Lidt nørdet, lidt smart.",
-    questions: [
-      { id: "sn1", text: "En patient har hyperthyreose og exophthalmus (udstående øjne). Hvilken sygdom er mest sandsynlig?", options: [ "Hashimotos thyroiditis", "Graves' sygdom (Basedows)", "Subakut (De Quervain) thyroiditis", "Toksisk multinodøs struma" ], correctIndex: 1 },
-      { id: "sn2", text: "Hvilken syre-baseforstyrrelse opstår typisk efter langvarige opkastninger?", options: [ "Respiratorisk acidose", "Respiratorisk alkalose", "Metabolisk alkalose", "Metabolisk acidose" ], correctIndex: 2 },
-      { id: "sn3", text: "En patient har ankelødemer, ascites og halsvenestase. Hvilken tilstand passer bedst til disse fund?", options: [ "Nefrotisk syndrom", "Levercirrose", "Højresidig hjerteinsufficiens", "Venstresidig hjerteinsufficiens" ], correctIndex: 2 },
-      { id: "sn4", text: "Hvad gives rutinemæssigt til nyfødte for at forebygge blødninger?", options: [ "Jern", "D-vitamin", "Folinsyre", "K-vitamin" ], correctIndex: 3 },
-      { id: "sn5", text: "Høfeber (allergisk rhinitis) er et eksempel på hvilken type hypersensitivitetsreaktion?", options: [ "Type I (IgE-medieret)", "Type II (antistofmedieret)", "Type III (immunkompleks)", "Type IV (forsinket)" ], correctIndex: 0 },
-      { id: "sn6", text: "Hvilken hjerterytme er karakteriseret ved en \"irregulær-irregulær\" puls?", options: [ "Atrieflagren (forkammerflagren)", "AV-blok grad III", "Atrieflimren (forkammerflimren)", "Sinusarytmi" ], correctIndex: 2 },
-      { id: "sn7", text: "Hvilket af følgende er typisk ved en øvre motorneuronskade?", options: [ "Spastisk parese med hyperrefleksi", "Udtalt muskelsvind og atrofi", "Fascikulationer i de påvirkede muskler", "Nedsatte eller ophævede dybe reflekser" ], correctIndex: 0 },
-      { id: "sn8", text: "Hvilken bakterie er den hyppigste årsag til samfundserhvervet pneumoni?", options: [ "Legionella pneumophila", "Mycoplasma pneumoniae", "Staphylococcus aureus", "Streptococcus pneumoniae" ], correctIndex: 3 },
-      { id: "sn9", text: "En positiv Murphy's tegn under abdominalundersøgelse indikerer typisk:", options: [ "Akut appendicitis (blindtarmsbetændelse)", "Akut pancreatitis (bugspytkirtelbetændelse)", "Akut pyelonefritis (nyrebækkenbetændelse)", "Akut cholecystitis (galdeblærebetændelse)" ], correctIndex: 3 },
-      { id: "sn10", text: "Inden for hvor mange timer efter et iskæmisk stroke kan trombolyse typisk iværksættes?", options: [ "Ca. 1 time", "Ca. 12 timer", "Ca. 4,5 time", "Ca. 24 timer" ], correctIndex: 2 },
-      { id: "sn11", text: "En patient er varm, rødmosset, hypotensiv og febril med høj puls. Hvilken form for shock er mest sandsynlig?", options: [ "Hypovolæmisk shock", "Septisk shock", "Anafylaktisk shock", "Kardiogent shock" ], correctIndex: 1 },
-      { id: "sn12", text: "Hvilken af følgende indgår IKKE i en nyfødts APGAR-score?", options: [ "Muskeltonus", "Respiration", "Blodtryk", "Puls (hjertefrekvens)" ], correctIndex: 2 },
-      { id: "sn13", text: "Hvilken tarmsygdom kan involvere hele gastrointestinalkanalen og er karakteriseret ved segmentær ('skip') udbredelse?", options: [ "Colitis ulcerosa", "Divertikulose", "Morbus Crohn", "Irritabel tyktarm (IBS)" ], correctIndex: 2 },
-      { id: "sn14", text: "Hvilken almindelig bivirkning ses ved brug af ACE-hæmmere (f.eks. enalapril)?", options: [ "Hårtab", "Lavt blodsukker", "Tør hoste", "Forstoppelse" ], correctIndex: 2 },
-      { id: "sn15", text: "Hvilket EKG-fund er typisk ved akut perikarditis?", options: [ "Diffuse ST-elevationer i flere afledninger", "Delta-tak (præeksitation)", "Forlænget QT-interval", "ST-depressioner i V1-V3" ], correctIndex: 0 },
-      { id: "sn16", text: "Hvad tester Lachman-testen i knæet for?", options: [ "Ruptur af forreste korsbånd", "Skade på det laterale ledbånd", "Patella-luksation", "Ruptur af mediale menisk" ], correctIndex: 0 },
-      { id: "sn17", text: "Hvor i rygsøjlen opstår diskusprolaps hyppigst?", options: [ "Halsryggen (cervikalcolumna)", "Brystryggen (thorakalcolumna)", "Lænderyggen (lumbalcolumna)", "Bækkenet (sakral område)" ], correctIndex: 2 },
-      { id: "sn18", text: "Hvilken del af nøglebenet (clavicula) brækker oftest?", options: [ "Laterale (ydre) ende", "Clavicula brækker sjældent", "Midterste tredjedel", "Mediale (indre) ende" ], correctIndex: 2 },
-      { id: "sn19", text: "Hvad er den korrekte akutte behandling af et kompartmentsyndrom?", options: [ "Kirurgisk fasciotomi", "Intravenøs antibiotika", "Højt løft af ekstremiteten og is", "Gipsimmobilisering" ], correctIndex: 0 },
-      { id: "sn20", text: "Hvilken nerve kan skades ved en anteriort skulderluksation?", options: [ "N. musculocutaneus", "N. radialis", "N. medianus", "N. axillaris" ], correctIndex: 3 },
-      { id: "sn21", text: "Hvilken type hoftenær fraktur er hyppigst hos ældre?", options: [ "Pertrokantær femurfraktur", "Acetabulumfraktur", "Collum femoris-fraktur (lårhalsbrud)", "Subtrokantær femurfraktur" ], correctIndex: 2 },
-      { id: "sn22", text: "Hvilken menisk i knæet læderes hyppigst?", options: [ "Ingen – menisker brister sjældent", "De læderes lige hyppigt", "Den mediale menisk", "Den laterale menisk" ], correctIndex: 2 },
-      { id: "sn23", text: "Et positivt Trendelenburgs tegn (hofte synker ned på modsatte side) tyder på svaghed i:", options: [ "M. quadriceps femoris", "M. gluteus maximus", "Hasemusklerne", "M. gluteus medius/minimus" ], correctIndex: 3 },
-      { id: "sn24", text: "Hvilken komplikation frygtes ved brud på os scaphoideum (bådbenet i hånden)?", options: [ "Fejlstilling efter heling (malunion)", "Kompartmentsyndrom i håndleddet", "Avaskulær knoglenekrose", "Infektion i knoglen (osteomyelitis)" ], correctIndex: 2 },
-      { id: "sn25", text: "Hvad kaldes testen, hvor man roterer underbenet med knæet bøjet for at afsløre en meniskskade?", options: [ "Lachmans test", "McMurrays test", "Phalens test", "Finkelsteins test" ], correctIndex: 1 },
-      { id: "sn26", text: "BRCA1-genmutation hos kvinder medfører særlig øget risiko for:", options: [ "Hudcancer (melanom)", "Tyktarmscancer", "Lungecancer", "Bryst- og ovariecancer" ], correctIndex: 3 },
-      { id: "sn27", text: "Hvilken kræftform er den hyppigst forekommende hos børn?", options: [ "Hjernetumor", "Leukæmi", "Knoglekræft", "Lymfekræft (lymfom)" ], correctIndex: 1 },
-      { id: "sn28", text: "Tumorlysesyndrom kan medføre livsfarligt forhøjet niveau af:", options: [ "Natrium", "Calcium", "Kalium", "Bicarbonat" ], correctIndex: 2 },
-      { id: "sn29", text: "Tumormarkøren CA-125 er primært associeret med hvilken type kræft?", options: [ "Prostatacancer", "Tyktarmscancer", "Lungecancer", "Ovariecancer" ], correctIndex: 3 },
-      { id: "sn30", text: "Hvilken kræftsygdom behandles ofte med antiøstrogenet tamoxifen?", options: [ "Brystkræft", "Nyrekræft", "Lungekræft", "Prostatakræft" ], correctIndex: 0 }
-    ]
+  {
+    "id": "ort_002",
+    "text": "Hvad er førstevalg af billeddiagnostik ved mistanke om knoglebrud?",
+    "options": [
+      "Røntgenundersøgelse",
+      "CT-skanning",
+      "MR-skanning",
+      "Ultralydsscanning"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "udredning",
+    "topicId": "acute_imaging",
+    "qc": "QC4_DIAGNOSTICS",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
   },
-
-  "spicy-meds-v1": {
-    title: "Overlægen(t)",
-    description: "Læge-nørd med lidt attitude.",
-    questions: [
-      { id: "sm1", text: "Hvad betyder det, hvis p-værdien i et studie er 0,03?", options: [ "At studiet har en styrke (power) på 97%", "At sandsynligheden for at resultatet skyldes tilfældighed er 3% (statistisk signifikant)", "At nulhypotesen er sand med 97% sandsynlighed", "At 3% af forsøgspersonerne oplevede effekt" ], correctIndex: 1 },
-      { id: "sm2", text: "Hvad er formålet med randomisering i et klinisk forsøg?", options: [ "At øge studiets eksterne validitet", "At fordele kendte og ukendte confounders ligeligt mellem grupperne", "At opnå signifikante resultater lettere", "At sikre at både forsøgsleder og deltagere er blindede" ], correctIndex: 1 },
-      { id: "sm3", text: "Hvilken type studie er bedst egnet til at beregne incidens af en sygdom?", options: [ "Case-kontrol-studie", "Tværsnitsstudie", "Kohortestudie", "Case-rapport" ], correctIndex: 2 },
-      { id: "sm4", text: "Hvad sker der med en tests positive prædiktive værdi (PPV), hvis prævalensen af sygdommen stiger?", options: [ "PPV ændres ikke", "Testens specificitet stiger", "PPV stiger", "PPV falder" ], correctIndex: 2 },
-      { id: "sm5", text: "Hvad kaldes den form for bias, hvor tidligere diagnostik (fx via screening) giver illusion af længere overlevelse uden reel forlængelse af livet?", options: [ "Recall bias", "Selektionsbias", "Confirmation bias", "Lead-time bias" ], correctIndex: 3 },
-      { id: "sm6", text: "Hvor stor en andel af observationerne ligger inden for ±2 standardafvigelser i en normalfordeling?", options: [ "Ca. 68%", "Ca. 50%", "Ca. 95%", "Ca. 99,7%" ], correctIndex: 2 },
-      { id: "sm7", text: "En patient med type 1-diabetes har Kussmaul-ventilation, høj blodglukose og ketonstoffer i blodet. Hvilken syre-baseforstyrrelse forventes?", options: [ "Metabolisk acidose med højt anion-gap", "Respiratorisk alkalose", "Metabolisk alkalose", "Respiratorisk acidose" ], correctIndex: 0 },
-      { id: "sm8", text: "Hvilken syre-baseforstyrrelse ses klassisk ved salicylat (aspirin) forgiftning?", options: [ "Ren metabolisk alkalose", "Blandet metabolisk acidose og respiratorisk alkalose", "Ren metabolisk acidose", "Blandet metabolisk og respiratorisk acidose" ], correctIndex: 1 },
-      { id: "sm9", text: "Hvilket tuberkulose-middel kan give synsforstyrrelser (opticusneuritis) som bivirkning?", options: [ "Rifampicin", "Pyrazinamid", "Ethambutol", "Isoniazid" ], correctIndex: 2 },
-      { id: "sm10", text: "Hvilket antistof ses forhøjet (positiv test) ved Granulomatose med polyangiitis (Wegeners granulomatose)?", options: [ "ANA", "RF (reumafaktor)", "c-ANCA (PR3)", "p-ANCA" ], correctIndex: 2 },
-      { id: "sm11", text: "Hvilken profylakse bør en HIV-patient med CD4-tal under 200 have?", options: [ "Azithromycin mod MAC", "Fluconazol mod svampeinfektion", "Aciclovir mod CMV", "Trimethoprim-sulfamethoxazol mod Pneumocystis jiroveci" ], correctIndex: 3 },
-      { id: "sm12", text: "Hvad er den hyppigste årsag til Cushing-syndrom?", options: [ "Kortisolproducerende binyretumor", "Ektopisk ACTH fra fx småcellet lungecancer", "ACTH-producerende hypofyseadenom (Cushings sygdom)", "Langvarig glukokortikoidbehandling (iatrogen Cushing)" ], correctIndex: 3 },
-      { id: "sm13", text: "Hvilken primær hjernetumor er hyppigst hos voksne?", options: [ "Astrocytom", "Glioblastom", "Hypofyseadenom", "Meningeom" ], correctIndex: 3 },
-      { id: "sm14", text: "Hos IV-stofmisbrugere med endokarditis er den typisk afficerede hjerteklap:", options: [ "Aortaklappen", "Trikuspidalklappen", "Pulmonalklappen", "Mitralklappen" ], correctIndex: 1 },
-      { id: "sm15", text: "Hvad er den hyppigste udløsende årsag til akut pancreatitis?", options: [ "Kronisk alkoholmisbrug", "Galdesten", "Medicinske bivirkninger", "Hypertriglyceridæmi" ], correctIndex: 1 },
-      { id: "sm16", text: "Hvad er en Monteggia-fraktur?", options: [ "Dobbeltsidig fraktur af både ulna og radius", "Fraktur af proximale ulna med luksation af caput radii", "Fraktur af distale radius med luksation af caput ulna (Galeazzi)", "Fraktur gennem vækstzonen hos et barn (Salter-Harris fraktur)" ], correctIndex: 1 },
-      { id: "sm17", text: "Hvilke frakturer anvendes Garden-klassifikationen til at beskrive?", options: [ "Åbne skinnebensbrud (tibia frakturer)", "Albuebrud hos børn", "Rygmarvsskader", "Hoftenære lårhalsbrud (collum femoris frakturer)" ], correctIndex: 3 },
-      { id: "sm18", text: "Hvilken Salter-Harris frakturtype (vækstskivefraktur) er hyppigst?", options: [ "Type II", "Type IV", "Type I", "Type III" ], correctIndex: 0 },
-      { id: "sm19", text: "Hvad bruges Cobb-vinklen til at måle?", options: [ "Skoliose-grad i rygsøjlen", "Knæets rotationsfejlstilling", "Bevægelighed i hofteleddet", "Vinklen af en hallux valgus deformitet" ], correctIndex: 0 },
-      { id: "sm20", text: "En positiv forreste skuffetest af anklen tyder på skade af:", options: [ "Forreste korsbånd i knæet", "Akillessenen", "Lig. talofibulare anterius (FTA) i anklen", "Lig. deltoideum (mediale ledbånd) i anklen" ], correctIndex: 2 },
-      { id: "sm21", text: "Hvilken primær knogletumor er hyppigst hos børn og unge?", options: [ "Osteosarkom", "Ewings sarkom", "Kondrosarkom", "Osteoid osteom" ], correctIndex: 0 },
-      { id: "sm22", text: "En 80-årig kvinde er faldet og kan ikke rejse sig. Højre ben er forkortet og udadrotateret. Hvilken skade mistænkes?", options: [ "Brud på bækkenringen", "Hoftenær fraktur (formodentlig lårhalsbrud)", "Brud på lårbensskaftet", "Hofteleddets kugle er gået af led (hofte-luksation)" ], correctIndex: 1 },
-      { id: "sm23", text: "En overvægtig 13-årig dreng har hoftesmerter og hältende gang. Hvad er en sandsynlig diagnose?", options: [ "Avaskulær nekrose af femurhovedet", "Calvé-Legg-Perthes sygdom", "Epifysiolyse af caput femoris (SCFE)", "Medfødt hoftedysplasi" ], correctIndex: 2 },
-      { id: "sm24", text: "En patient med lændesmerter udvikler \"ridebukse-anæstesi\" og urinretention. Hvad er den korrekte håndtering?", options: [ "Observation med sengeleje og smertestillende", "Udredning for nyresten i urinvejene", "Akut udredning (MR) og kirurgisk dekompression for cauda equina-syndrom", "Epidural steroidblokade og genvurdering om 2 uger" ], correctIndex: 2 },
-      { id: "sm25", text: "Hvilken muskel/sene tester man ved \"empty-can\" testen i skulderen?", options: [ "M. supraspinatus", "M. biceps brachii (caput longum)", "M. subscapularis", "M. infraspinatus" ], correctIndex: 0 },
-      { id: "sm26", text: "Med hvilken hæmatologisk kræftsygdom associeres Philadelphia-kromosomet (t(9;22) BCR-ABL)?", options: [ "Akut myeloid leukæmi (AML)", "Kronisk myeloid leukæmi (CML)", "Akut lymfoblastær leukæmi (ALL)", "Polycythaemia vera" ], correctIndex: 1 },
-      { id: "sm27", text: "Hvilken kræftform forårsager flest dødsfald globalt?", options: [ "Lungekræft", "Leverkræft", "Brystkræft", "Tyk- og endetarmskræft" ], correctIndex: 0 },
-      { id: "sm28", text: "Hvilken alvorlig bivirkning er særligt forbundet med kemoterapi-medicinen bleomycin?", options: [ "Hjertesvigt", "Svær neuropati", "Hæmoragisk blærebetændelse", "Lungefibrose" ], correctIndex: 3 },
-      { id: "sm29", text: "Li-Fraumeni syndrom indebærer en arvelig mutation i hvilket tumorsuppressor-gen?", options: [ "RB1", "BRCA2", "TP53", "APC" ], correctIndex: 2 },
-      { id: "sm30", text: "Hvilket target binder antistoffet trastuzumab (Herceptin) til i behandling af brystkræft?", options: [ "CD20", "VEGF", "HER2-receptoren", "PD-1" ], correctIndex: 2 }
-    ]
+  {
+    "id": "ort_003",
+    "text": "Hvad betyder det, at en fraktur er komminut?",
+    "options": [
+      "At knoglen er splintret i flere mindre stykker",
+      "At frakturen går ind i et led",
+      "At bruddet kun er delvist gennem knoglen",
+      "At frakturen er opstået ved gentagen overbelastning"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "kerneviden",
+    "topicId": "fracture_principles",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_004",
+    "text": "Hvor mange muskelloger (compartments) findes der i underbenet?",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "correctIndex": 2,
+    "level": 9,
+    "domain": "kerneviden",
+    "topicId": "compartment_syndrome",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_005",
+    "text": "Hvad er den korrekte akutte behandling af et klinisk mistænkt kompartmentsyndrom?",
+    "options": [
+      "Akut fasciotomi af alle involverede muskelloger",
+      "Fjernelse af gips og elevation som eneste tiltag",
+      "Højdosis steroidbehandling intravenøst",
+      "Tæt elastikbandagering af ekstremiteten for at mindske hævelse"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "kerneviden",
+    "topicId": "compartment_syndrome",
+    "qc": "QC2_CORE_URGENT",
+    "type": "mcq",
+    "sourceHint": "UK konsensus",
+    "needsReview": false
+  },
+  {
+    "id": "ort_006",
+    "text": "Hvad står RICE for i behandling af akutte bløddelsskader?",
+    "options": [
+      "Rest, Ice, Compression, Elevation",
+      "Rest, Ice, Compression, Exercise",
+      "Rehabilitation, Ice, Cooling, Elevation",
+      "Rest, Ibuprofen, Cooling, Elevation"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "kerneviden",
+    "topicId": "immobilization",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_007",
+    "text": "Hvad er formålet med at anlægge en skinne eller gips ved fraktur?",
+    "options": [
+      "At stabilisere frakturen og dermed mindske smerte samt yderligere skade",
+      "At øge blodtilførslen til det skadede område",
+      "At forebygge infektion i frakturområdet",
+      "At forhindre hævelse ved at begrænse blodgennemstrømningen"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "kerneviden",
+    "topicId": "immobilization",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_008",
+    "text": "Hvorfor er det vigtigt at undersøge distal puls og sensibilitet ved en ekstremitetsfraktur?",
+    "options": [
+      "For at opdage eventuelle kar- eller nerveskader tidligt",
+      "For at vurdere om frakturen er disloceret",
+      "For hurtigt at kunne afslutte undersøgelsen",
+      "For at planlægge hvilken gips der skal anlægges"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "kerneviden",
+    "topicId": "neurovascular_status",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_009",
+    "text": "Hvad vil det sige at reponere en fraktur?",
+    "options": [
+      "At bringe knogleenderne tilbage i korrekt stilling",
+      "At stabilisere frakturen med en skinne",
+      "At fjerne små knoglefragmenter kirurgisk",
+      "At lægge knoglen i træk"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "kerneviden",
+    "topicId": "fracture_principles",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_010",
+    "text": "Hvad vil det sige at en fraktur er disloceret?",
+    "options": [
+      "At knogleenderne ikke står korrekt i forhold til hinanden",
+      "At frakturen involverer en ledflade",
+      "At frakturen har åben forbindelse til omgivelserne",
+      "At frakturen består af mere end to fragmenter"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "kerneviden",
+    "topicId": "fracture_principles",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_011",
+    "text": "Hvilket knoglebrud er hyppigst forbundet med akut kompartmentsyndrom i benet?",
+    "options": [
+      "Skaftfraktur på tibia (underben)",
+      "Collum femoris fraktur (hofte)",
+      "Femur skaftfraktur (lårben)",
+      "Malleolfraktur (ankelbrud)"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "komplikationer",
+    "topicId": "compartment_syndrome",
+    "qc": "QC7_COMPLICATIONS",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_012",
+    "text": "Hvad forstås ved en ledluksation?",
+    "options": [
+      "En fuldstændig forskydning af ledfladerne i forhold til hinanden",
+      "En ufuldstændig forskydning af ledfladerne (subluksation)",
+      "Et knoglebrud der involverer ledfladen",
+      "Et knoglebrud hvor en knogleende stikker gennem huden"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "kerneviden",
+    "topicId": "trauma_general",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_013",
+    "text": "Hvad beskriver bedst en forstuvning (distortion)?",
+    "options": [
+      "Overstrækning eller delvis overrivning af et ligament",
+      "Et brud på en knogle i nærheden af et led",
+      "En skade på en muskel efter akut traume",
+      "En forskydning af to ledflader i forhold til hinanden"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "kerneviden",
+    "topicId": "trauma_general",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_014",
+    "text": "Hvilket fund er mest karakteristisk for et knoglebrud frem for en forstuvning?",
+    "options": [
+      "Fejlstilling af ekstremiteten",
+      "Hævelse og smerter",
+      "Nedsat funktion af ekstremiteten",
+      "Misfarvning (blå mærker) omkring skaden"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "udredning",
+    "topicId": "trauma_general",
+    "qc": "QC3_DDX_REASONING",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_015",
+    "text": "Man skal som hovedregel altid tage mindst to røntgenprojektioner i forskellige planer ved mistanke om fraktur.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "udredning",
+    "topicId": "acute_imaging",
+    "qc": "QC4_DIAGNOSTICS",
+    "type": "tf",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_016",
+    "text": "Hvad er den grundlæggende årsag til akut kompartmentsyndrom?",
+    "options": [
+      "Øget tryk i et lukket muskelloge, der kompromitterer gennemblødningen",
+      "Pludselig overrivning af en muskel med omfattende blødning",
+      "Komplet afrivning af en stor arterie i ekstremiteten",
+      "Klemning af en perifer nerve i en små plads"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "kerneviden",
+    "topicId": "compartment_syndrome",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_017",
+    "text": "Hvad kendetegner et patologisk fraktur?",
+    "options": [
+      "Brud ved minimal belastning på grund af sygeligt svækket knogle (fx metastase)",
+      "Brud som heler dårligt og giver kroniske smerter",
+      "Brud som kun kan hele efter kirurgisk behandling",
+      "Brud gennem en vækstzone (epifyseskive)"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "kerneviden",
+    "topicId": "fracture_principles",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_018",
+    "text": "Hvad bør altid indgå i den akutte behandling af en åben fraktur?",
+    "options": [
+      "Tidlig intravenøs antibiotikaprofylakse",
+      "Primær sutur af såret før yderligere behandling",
+      "Immobilisering i 10-14 dage inden endelig behandling",
+      "Afventen af hævelse aftager før kirurgisk intervention"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "kerneviden",
+    "topicId": "open_fracture",
+    "qc": "QC2_CORE_URGENT",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_019",
+    "text": "Hvad bør man gøre med ringe på fingrene ved en håndskade?",
+    "options": [
+      "Fjerne dem hurtigst muligt for at undgå kompression ved hævelse",
+      "Lade dem blive siddende med mindre fingeren bliver iskæmisk",
+      "Tape dem fast inden røntgen for at undgå at de bliver væk",
+      "Ingenting, da det sjældent har betydning for behandlingen"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "kerneviden",
+    "topicId": "trauma_general",
+    "qc": "QC5_TREATMENT_PLAN",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_020",
+    "text": "Ved anlæggelse af en skinne til en ekstremitetsfraktur bør man som hovedregel immobilisere...",
+    "options": [
+      "Både leddet over og under frakturen",
+      "Kun selve bruddet, ikke tilstødende led",
+      "Kun hvis frakturen er åben, skal naboleddet inkluderes",
+      "Aldrig leddet proksimalt for frakturen pga risiko for stivhed"
+    ],
+    "correctIndex": 0,
+    "level": 9,
+    "domain": "procedurer",
+    "topicId": "immobilization",
+    "qc": "QC6_PROCEDURE_TECH",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_021",
+    "text": "Hvilket af følgende er IKKE et klassisk tegn på akut kompartmentsyndrom?",
+    "options": [
+      "Smerter ved passiv bevægelse af muskler i det skadede område",
+      "Hård og spændt hævelse af muskellogen",
+      "Manglende distal puls",
+      "Normal følesans distalt for skaden"
+    ],
+    "correctIndex": 3,
+    "level": 10,
+    "domain": "kerneviden",
+    "topicId": "compartment_syndrome",
+    "qc": "QC2_CORE_URGENT",
+    "type": "mcq",
+    "sourceHint": "UK konsensus",
+    "needsReview": false
+  },
+  {
+    "id": "ort_022",
+    "text": "Hvilket udsagn om gipsbehandling ved fraktur er KORREKT?",
+    "options": [
+      "En cirkulær gips bør først anlægges, når den akutte hævelse har lagt sig",
+      "Hele ekstremiteten bør altid gipses fra proksimalt til distalt uanset frakturtype",
+      "Patienten må ikke bevæge fingre eller tæer, når gipsen er anlagt",
+      "En fraktur skal altid holdes i gips indtil knoglen er komplet helet på røntgen"
+    ],
+    "correctIndex": 0,
+    "level": 10,
+    "domain": "procedurer",
+    "topicId": "immobilization",
+    "qc": "QC6_PROCEDURE_TECH",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_023",
+    "text": "Hvor lang tid går der typisk, før der ses kallusdannelse på røntgen ved knogleheling?",
+    "options": [
+      "1-2 døgn",
+      "7-10 dage",
+      "2-3 uger",
+      "6-8 uger"
+    ],
+    "correctIndex": 2,
+    "level": 10,
+    "domain": "kerneviden",
+    "topicId": "fracture_principles",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_024",
+    "text": "Hvordan testes N. radialis motorisk i hånden ved akut skadesundersøgelse?",
+    "options": [
+      "Ekstension i håndled og fingerled",
+      "Opposition af tommelfinger mod lillefinger",
+      "Abduktion af lillefingeren",
+      "Fleksion i albuen mod modstand"
+    ],
+    "correctIndex": 0,
+    "level": 10,
+    "domain": "udredning",
+    "topicId": "neurovascular_status",
+    "qc": "QC4_DIAGNOSTICS",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_025",
+    "text": "Hvilken nervefunktion bør man især teste ved en anterior skulderluksation?",
+    "options": [
+      "N. axillaris (fx følesans over m. deltoideus)",
+      "N. medianus (fx opposition af tommel)",
+      "N. ulnaris (fx fingerspredning)",
+      "N. radialis (fx håndledsekstension)"
+    ],
+    "correctIndex": 0,
+    "level": 10,
+    "domain": "kerneviden",
+    "topicId": "neurovascular_status",
+    "qc": "QC4_DIAGNOSTICS",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_026",
+    "text": "Røntgen af en fraktur bør som hovedregel omfatte nærmeste led både proksimalt og distalt.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correctIndex": 0,
+    "level": 10,
+    "domain": "udredning",
+    "topicId": "acute_imaging",
+    "qc": "QC4_DIAGNOSTICS",
+    "type": "tf",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_027",
+    "text": "En motorcyklist har fået et åbent skinnebenbrud med synlig knogleende på ulykkesstedet. Hvad er den mest hensigtsmæssige førstehåndsågærden?",
+    "options": [
+      "Dække såret sterilt og stabilisere benet i nuværende stilling",
+      "Forsøge at reponere knogleenden ind under huden uden analgesi",
+      "Skylle såret grundigt med vand og derefter pakke det ind",
+      "Afvente ankomst til hospital uden lokale tiltag"
+    ],
+    "correctIndex": 0,
+    "level": 10,
+    "domain": "kerneviden",
+    "topicId": "open_fracture",
+    "qc": "QC5_TREATMENT_PLAN",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_028",
+    "text": "En patient med åben fraktur har ukendt stivkrampevaccinationsstatus. Hvad bør man gøre?",
+    "options": [
+      "Give både tetanus vaccination og humant tetanus-immunglobulin",
+      "Give kun tetanus vaccination (di-Te booster)",
+      "Give kun tetanus-immunglobulin akut",
+      "Ingen profylakse nødvendig, hvis såret renses grundigt"
+    ],
+    "correctIndex": 0,
+    "level": 10,
+    "domain": "kerneviden",
+    "topicId": "open_fracture",
+    "qc": "QC5_TREATMENT_PLAN",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_029",
+    "text": "Hvilken billedmodalitet er bedst egnet til at vurdere en kompliceret, lednär fraktur?",
+    "options": [
+      "CT-skanning",
+      "Røntgen i to plan",
+      "MR-skanning",
+      "Ultralyd"
+    ],
+    "correctIndex": 0,
+    "level": 10,
+    "domain": "udredning",
+    "topicId": "acute_imaging",
+    "qc": "QC4_DIAGNOSTICS",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_030",
+    "text": "Hvilken nerve læderes hyppigst ved en midtskaftsfraktur på humerus?",
+    "options": [
+      "N. radialis",
+      "N. medianus",
+      "N. ulnaris",
+      "N. axillaris"
+    ],
+    "correctIndex": 0,
+    "level": 10,
+    "domain": "komplikationer",
+    "topicId": "neurovascular_status",
+    "qc": "QC7_COMPLICATIONS",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_031",
+    "text": "Hvorfor anlægges ofte midlertidig strakstraction (stræk) ved en lårbensfraktur?",
+    "options": [
+      "For at mindske smerter og blødning ved at holde frakturenderne i ro",
+      "For at undgå behov for kirurgisk behandling",
+      "For at øge blodtilførslen til frakturområdet",
+      "For at forebygge infektion i frakturen"
+    ],
+    "correctIndex": 0,
+    "level": 10,
+    "domain": "procedurer",
+    "topicId": "immobilization",
+    "qc": "QC6_PROCEDURE_TECH",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_032",
+    "text": "Hvad forstås ved en stressfraktur?",
+    "options": [
+      "Et knoglebrud opstået ved gentagne små overbelastninger uden akut traume",
+      "Et knoglebrud opstået i svækket knogle ved minimal påvirkning",
+      "Et knoglebrud forårsaget af et direkte slag",
+      "Et knoglebrud gennem en patologisk knoglecyste"
+    ],
+    "correctIndex": 0,
+    "level": 10,
+    "domain": "kerneviden",
+    "topicId": "fracture_principles",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_033",
+    "text": "Hvilket udsagn om akut kompartmentsyndrom er KORREKT?",
+    "options": [
+      "Distale pulses kan godt være normale tidligt i forløbet",
+      "Smerter er sjældent fremtrædende i de tidlige faser",
+      "Tilstanden forekommer kun meget sjældent ved skinnebenbrud",
+      "Man kan afvente op til 24 timer med behandling uden varige mén"
+    ],
+    "correctIndex": 0,
+    "level": 10,
+    "domain": "kerneviden",
+    "topicId": "compartment_syndrome",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_034",
+    "text": "Hvilken alvorlig komplikation kan en alt for stram cirkulær gips medføre?",
+    "options": [
+      "Kompartmentsyndrom i den indeklemte ekstremitet",
+      "Osteoporose distalt for gipsen",
+      "Instabilitet af frakturen",
+      "Forsinket frakturheling (delayed union)"
+    ],
+    "correctIndex": 0,
+    "level": 10,
+    "domain": "komplikationer",
+    "topicId": "compartment_syndrome",
+    "qc": "QC7_COMPLICATIONS",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_035",
+    "text": "Hvilken akut stabilisering tilrådes ved mistanke om en ustabil bækkenfraktur efter traume?",
+    "options": [
+      "Anlæggelse af et bækkenbind/bælte omkring hofterne",
+      "Anlæggelse af en Kendrick traumesplint (hare-skinne)",
+      "Ingen immobilisering før endelig kirurgisk behandling",
+      "Placering af patienten på en vakuummadras (vakuum-spineboard)"
+    ],
+    "correctIndex": 0,
+    "level": 10,
+    "domain": "procedurer",
+    "topicId": "pelvic_trauma",
+    "qc": "QC2_CORE_URGENT",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_036",
+    "text": "En 22-årig mand har faldet på hånden og har smerter i fossa Tabatière (\"snusbægeret\"). Røntgen af håndled er uden synligt brud. Hvad er den rette håndtering?",
+    "options": [
+      "Anlægge skåneskinne/gips og kontrolrøntgen om ~10 dage",
+      "Afkræfte frakturmistanken og mobilisere hånden frit",
+      "Bestille akut MR-scanning af håndleddet",
+      "Lade patienten selv afgøre afhængigt af smerter"
+    ],
+    "correctIndex": 0,
+    "level": 10,
+    "domain": "udredning",
+    "topicId": "acute_imaging",
+    "qc": "QC5_TREATMENT_PLAN",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_037",
+    "text": "Hvad bør man overveje hos patienter med større frakturer, der medfører længerevarende immobilisering?",
+    "options": [
+      "Tromboseprofylakse med lavmolekylært heparin",
+      "Profylaktisk bredspektret antibiotika",
+      "Højdosis steroidbehandling",
+      "Ingen særlig profylakse nødvendig"
+    ],
+    "correctIndex": 0,
+    "level": 10,
+    "domain": "komplikationer",
+    "topicId": "trauma_complications",
+    "qc": "QC7_COMPLICATIONS",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_038",
+    "text": "Hvor stort blodtab kan en enkelt lårbensfraktur (femur skaft) typisk medføre?",
+    "options": [
+      "Omkring 1-1,5 liter",
+      "Højst 200 mL",
+      "Sjældent over 500 mL",
+      "Over 5 liter"
+    ],
+    "correctIndex": 0,
+    "level": 10,
+    "domain": "kerneviden",
+    "topicId": "trauma_management",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_039",
+    "text": "Ifølge Ottawa Ankelregler: Hvad er en indikation for røntgenundersøgelse efter ankelskade?",
+    "options": [
+      "Manglende evne til at støtte på foden både umiddelbart efter skaden og i skadestuen",
+      "Hævelse og misfarvning omkring malleolerne",
+      "Palpationssmerter over det laterale ledbånd (lig. talofibulare ant.)",
+      "Smerter ved inversionsbevægelse af foden"
+    ],
+    "correctIndex": 0,
+    "level": 10,
+    "domain": "udredning",
+    "topicId": "acute_imaging",
+    "qc": "QC4_DIAGNOSTICS",
+    "type": "mcq",
+    "sourceHint": "UK konsensus",
+    "needsReview": false
+  },
+  {
+    "id": "ort_040",
+    "text": "Intraartikulære frakturer bør som udgangspunkt behandles operativt for at opnå anatomisk reposition af ledfladen.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correctIndex": 0,
+    "level": 10,
+    "domain": "kerneviden",
+    "topicId": "fracture_principles",
+    "qc": "QC5_TREATMENT_PLAN",
+    "type": "tf",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_041",
+    "text": "Volkmanns kontraktur i armen opstår typisk som følge af:",
+    "options": [
+      "Ubehandlet kompartmentsyndrom i underarmens fleksorloge",
+      "For langvarig gipsimmobilisering af håndleddet",
+      "N. radialis læsion ved humerusfraktur",
+      "Kronisk betændelse i albueleddet"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "komplikationer",
+    "topicId": "compartment_syndrome",
+    "qc": "QC7_COMPLICATIONS",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_042",
+    "text": "En 25-årig mand fik en cirkulær gips på underbenet efter en fraktur. Seks timer senere tilkommer tiltagende intense smerter trods analgetika og nedsat følesans i foden. Hvad er den mest sandsynlige årsag?",
+    "options": [
+      "Akut kompartmentsyndrom under den stramme gips",
+      "Trykskade på N. peroneus ved knæet fra gipskanten",
+      "Dyb venetrombose i benet",
+      "Infektion under gipsen (akut osteomyelitis)"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "kerneviden",
+    "topicId": "compartment_syndrome",
+    "qc": "QC2_CORE_URGENT",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_043",
+    "text": "Åbne frakturer bør som udgangspunkt revideres kirurgisk inden for 6 timer fra skadetidspunktet.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "kerneviden",
+    "topicId": "open_fracture",
+    "qc": "QC2_CORE_URGENT",
+    "type": "tf",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_044",
+    "text": "Hvilket intra-kompartmentelt tryk (rumtryk) anvendes ofte som grænseværdi for at indikation for fasciotomi foreligger?",
+    "options": [
+      "Differenstryk < 30 mmHg mellem diastolisk blodtryk og rumtryk",
+      "Absolut rumtryk > 80 mmHg målt direkte i muskellogen",
+      "Differenstryk > 100 mmHg mellem systolisk og diastolisk blodtryk",
+      "Intrakompartmentalt tryk < 10 mmHg over atmosfærisk tryk"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "udredning",
+    "topicId": "compartment_syndrome",
+    "qc": "QC4_DIAGNOSTICS",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_045",
+    "text": "Hvordan bør en højgravid kvinde lejres under initial stabilisering efter et stort traume?",
+    "options": [
+      "Venstre sideleje eller kile under højre hofte for at aflaste vena cava",
+      "Fladt rygleje (ryg på spineboard) for maksimal immobilisering",
+      "Trendelenburg-leje med hovedet nedad for at øge cerebral perfusion",
+      "Højre sideleje for at beskytte leveren mod traumer"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "tvaerfagligt",
+    "topicId": "trauma_management",
+    "qc": "QC9_SPECIAL_POP",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_046",
+    "text": "Hvordan bør en traumatiseret, amputeret legemsdel opbevares før mulig replantation?",
+    "options": [
+      "Indpakket sterilt og fugtigt, i en plastikpose på isvand",
+      "Direkte nedkølet i fryser ved -18°C",
+      "Lægget tørt i stuetemperatur indtil kirurgen ankommer",
+      "I pose med konserverende opløsning (fx formalin) ved kølig temperatur"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "procedurer",
+    "topicId": "trauma_management",
+    "qc": "QC5_TREATMENT_PLAN",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_047",
+    "text": "Hvilken faktor er kendt for at forsinke frakturheling betydeligt?",
+    "options": [
+      "Aktiv rygning gennem helingsforløbet",
+      "Elevering af den skadede ekstremitet",
+      "Ung alder og god ernæringstilstand",
+      "Tidlig mobilisering af det skadede område"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "evidens",
+    "topicId": "fracture_principles",
+    "qc": "QC10_EVIDENCE_METHOD",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_048",
+    "text": "Hvad bør patienten informeres om efter anlæggelse af en gipsbehandling?",
+    "options": [
+      "Holde den skadede ekstremitet eleveret i de første par døgn for at mindske hævelse",
+      "Undgå at bevæge fingre eller tæer på den gipsede ekstremitet",
+      "Undlade at komme til kontrol medmindre der opstår feber",
+      "At man kan bruge en strikkepind til at klø under gipsen ved irritation"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "tvaerfagligt",
+    "topicId": "immobilization",
+    "qc": "QC8_FOLLOWUP_REHAB",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_049",
+    "text": "Hvilken nerve læderes hyppigt ved knæluksation og kan medføre dropfod?",
+    "options": [
+      "N. peroneus communis (fibularis)",
+      "N. tibialis",
+      "N. femoralis",
+      "N. saphenus"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "komplikationer",
+    "topicId": "neurovascular_status",
+    "qc": "QC7_COMPLICATIONS",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_050",
+    "text": "Hvilken af følgende frakturer kan ofte behandles konservativt (uden operation)?",
+    "options": [
+      "Udisloceret midtskaftsfraktur af humerus",
+      "Disloceret lårbensfraktur hos voksen",
+      "Disloceret collum femoris fraktur hos ældre",
+      "Gustilo II åben crusfraktur"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "kerneviden",
+    "topicId": "fracture_principles",
+    "qc": "QC5_TREATMENT_PLAN",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_051",
+    "text": "Ved en åben fraktur med omfattende bløddelsskade (fx Gustilo IIIB) bør behandlingen planlægges i samarbejde med:",
+    "options": [
+      "En plastikkirurg (rekonstruktiv kirurgi til bløddelsdækning)",
+      "En karkirurg (karrekonstruktion)",
+      "En reumatolog",
+      "En neurokirurg"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "tvaerfagligt",
+    "topicId": "open_fracture",
+    "qc": "QC5_TREATMENT_PLAN",
+    "type": "mcq",
+    "sourceHint": "UK konsensus",
+    "needsReview": false
+  },
+  {
+    "id": "ort_052",
+    "text": "Efter reposition af en traumatisk knæluksation findes der ingen mærkbar puls distalt på foden. Hvad bør gøres?",
+    "options": [
+      "Akut karkirurgisk exploration/rekonstruktion",
+      "Foretage CT-angiografi af benet i løbet af de næste timer",
+      "Observere om puls genkommer over 2 timers forløb",
+      "Anlægge gipsskinne og afvente til næste dag"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "kerneviden",
+    "topicId": "vascular_injury",
+    "qc": "QC2_CORE_URGENT",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_053",
+    "text": "Hvilken akut komplikation kan opstå ved en disloceret distal radiusfraktur?",
+    "options": [
+      "Akut medianus-kompression (karpaltunnelsyndrom)",
+      "N. radialis parese med dropfinger",
+      "Overrivning af a. brachialis",
+      "Akut kompartmentsyndrom i hånden"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "komplikationer",
+    "topicId": "neurovascular_status",
+    "qc": "QC7_COMPLICATIONS",
+    "type": "mcq",
+    "sourceHint": "UK konsensus",
+    "needsReview": false
+  },
+  {
+    "id": "ort_054",
+    "text": "Hvordan udføres en akut fasciotomi ved kompartmentsyndrom i underbenet?",
+    "options": [
+      "Ved to lange spaltninger af fascien (lat. og med.) for at åbne alle 4 looger",
+      "Ved ét langt midtlinjesnit der åbner alle muskelloger",
+      "Ved flere små snit over hver af de 4 muskelloger",
+      "Ved at åbne fascien kun i det komprimerede kompartment"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "procedurer",
+    "topicId": "compartment_syndrome",
+    "qc": "QC6_PROCEDURE_TECH",
+    "type": "mcq",
+    "sourceHint": "UK konsensus",
+    "needsReview": false
+  },
+  {
+    "id": "ort_055",
+    "text": "Hvornår bør antibiotikaprofylakse senest opstartes ved åbne frakturer?",
+    "options": [
+      "Så tidligt som muligt – helst inden for 3 timer efter skaden",
+      "Inden for 24 timer efter skaden",
+      "Før operation, men det er ikke afgørende præcis hvornår",
+      "Først efter kirurgisk oprensning (debridement) af såret"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "evidens",
+    "topicId": "open_fracture",
+    "qc": "QC10_EVIDENCE_METHOD",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_056",
+    "text": "Hvilket kendetegn passer bedst på en Gustilo-Anderson type I åben fraktur?",
+    "options": [
+      "Sår under 1 cm med minimal forurening og bløddelsskade",
+      "Sår 2-5 cm med moderat bløddelsskade",
+      "Sår over 10 cm med omfattende bløddelsskade men intakt karforsyning",
+      "Sår af enhver størrelse med pulsløs ekstremitet distalt"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "kerneviden",
+    "topicId": "open_fracture",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_057",
+    "text": "En 30-årig patient med knætraume mistænkes for en korsbåndsruptur. Hvilken billedundersøgelse er bedst egnet til at påvise en ligamentlæsion?",
+    "options": [
+      "MR-skanning af knæet",
+      "Røntgen af knæ i to planer",
+      "CT-skanning af knæet",
+      "Ultralydsscanning af knæet"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "udredning",
+    "topicId": "acute_imaging",
+    "qc": "QC4_DIAGNOSTICS",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_058",
+    "text": "Hvilket fund taler mest for en akut arteriel skade frem for kompartmentsyndrom ved en ekstremitetsskade?",
+    "options": [
+      "Manglende perifer puls distalt for skaden",
+      "Tiltagende hård hævelse af muskellogen",
+      "Kraftige smerter trods smertebehandling",
+      "Føleforstyrrelser distalt for skaden"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "udredning",
+    "topicId": "vascular_injury",
+    "qc": "QC3_DDX_REASONING",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_059",
+    "text": "Hvad er KORREKT vedrørende sårhåndtering ved åbne frakturer?",
+    "options": [
+      "Større åbne fraktursår lukkes ikke primært, men dækkes midlertidigt (f.eks. med vakuum-forbinding)",
+      "Alle fraktursår bør primær-sutureres akut for at mindske infektionsrisiko",
+      "Sår under 2 cm kan altid lukkes i skadestuen uden risiko",
+      "Primær sårlukning reducerer infektionsrisikoen ved Gustilo III frakturer"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "komplikationer",
+    "topicId": "open_fracture",
+    "qc": "QC7_COMPLICATIONS",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_060",
+    "text": "Ved multitraumer skal livstruende tilstande altid stabiliseres før behandling af ekstremitetsskader.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correctIndex": 0,
+    "level": 11,
+    "domain": "kerneviden",
+    "topicId": "trauma_management",
+    "qc": "QC1_CORE_COMMON",
+    "type": "tf",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_061",
+    "text": "En 25-årig mand med multiple lår- og bækkenbrud udvikler 2 døgn efter ulykken konfusion, høj RF og petekkier på overkroppen. Hvad mistænkes?",
+    "options": [
+      "Fedtemboli-syndrom",
+      "Delirium tremens",
+      "Lungeemboli",
+      "Akut infektiøs sepsis"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "komplikationer",
+    "topicId": "trauma_complications",
+    "qc": "QC7_COMPLICATIONS",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_062",
+    "text": "Hvad forstås ved konceptet 'Damage Control Orthopedics' ved multitraume?",
+    "options": [
+      "Midlertidig stabilisering af frakturer (f.eks. ekstern fiksation) hos en ustabil patient inden definitiv kirurgi",
+      "Akut definitiv operation af alle frakturer for at patienten hurtigere kan mobiliseres",
+      "Konservativ behandling af frakturer for at undgå lange operationer",
+      "Kun behandling af kar- og organskader; frakturer ignoreres initialt"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "evidens",
+    "topicId": "trauma_management",
+    "qc": "QC10_EVIDENCE_METHOD",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_063",
+    "text": "Efter reposition af en knæluksation findes normale perifere pulsforhold. Hvad bør man gøre for at udelukke kar-skade?",
+    "options": [
+      "Foretage ankel-arm indeks (ABI) måling som screening",
+      "Ingen yderligere – normal puls udelukker karlæsion",
+      "Akut MR-angiografi af benet",
+      "Observere patienten i 24 timer uden yderligere tiltag"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "udredning",
+    "topicId": "vascular_injury",
+    "qc": "QC4_DIAGNOSTICS",
+    "type": "mcq",
+    "sourceHint": "UK konsensus",
+    "needsReview": false
+  },
+  {
+    "id": "ort_064",
+    "text": "Hvilket forhold taler for primær amputation frem for rekonstruktion af en svært skådet ekstremitet?",
+    "options": [
+      "Iskæmiperiode over 6 timer med manglende pulsforhold",
+      "Ung patient (20-30 år) med isoleret ekstremitetsskade",
+      "Alderdom (over 80 år) selv ved mindre frakturer",
+      "Åben fraktur med sår > 10 cm men intakt distal cirkulation"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "evidens",
+    "topicId": "trauma_complications",
+    "qc": "QC10_EVIDENCE_METHOD",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_065",
+    "text": "Hvad definerer en Gustilo-Anderson type IIIC åben fraktur?",
+    "options": [
+      "Enhver åben fraktur med vaskulær læsion som kræver karkirurgisk rekonstruktion",
+      "Åben fraktur med sår over 10 cm og behov for bløddelslap",
+      "Åben fraktur med sår under 1 cm og minimal bløddelsskade",
+      "Åben fraktur med moderat bløddelsskade uden karskade"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "kerneviden",
+    "topicId": "open_fracture",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_066",
+    "text": "Hvilken fraktur har særligt høj risiko for avaskulær nekrose i det proximale fragment?",
+    "options": [
+      "Collum femoris fraktur (hofte)",
+      "Diafysær femurfraktur",
+      "Humerus skaftfraktur",
+      "Tibia skaftfraktur"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "komplikationer",
+    "topicId": "hip_fracture_pathway",
+    "qc": "QC7_COMPLICATIONS",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_067",
+    "text": "Hvad betyder det, hvis en fraktur udvikler en pseudoartrose?",
+    "options": [
+      "Bruddet er ikke helet (falsk led-dannelse) trods lang tid",
+      "Bruddet er helet i fejlstilling",
+      "Bruddet heler meget hurtigt med overskydende kallus",
+      "Der er dannet infektiøst foci i knoglen (knoglebyld)"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "komplikationer",
+    "topicId": "trauma_complications",
+    "qc": "QC7_COMPLICATIONS",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_068",
+    "text": "Hvordan stabiliseres en Gustilo III åben fraktur typisk initialt efter oprensning?",
+    "options": [
+      "Med en ekstern fiksator",
+      "Med marvsøm (intramedullær sømning) som endelig behandling",
+      "Med konventionel gips i forventet heleperiode",
+      "Med skinne (splint) i 6 uger indtil heling"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "procedurer",
+    "topicId": "open_fracture",
+    "qc": "QC6_PROCEDURE_TECH",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_069",
+    "text": "Hvilken ekstra forholdsregel tages ved åben fraktur med jord/landbrugsforurening?",
+    "options": [
+      "Udvidet antibiotikadækning med f.eks. penicillin mod anaerobe bakterier",
+      "Ingen særlige tiltag ud over vanlig antibiotika",
+      "Kun grundig skylning – antibiotika er overflødigt",
+      "Vaccination mod hepatitis"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "komplikationer",
+    "topicId": "open_fracture",
+    "qc": "QC7_COMPLICATIONS",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_070",
+    "text": "Posterior hofteluksation bør reponeres inden 6 timer for at mindske risikoen for caputnekrose.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "kerneviden",
+    "topicId": "hip_dislocation",
+    "qc": "QC2_CORE_URGENT",
+    "type": "tf",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_071",
+    "text": "Hvilken situation kan udløse et akut kompartmentsyndrom uden en fraktur?",
+    "options": [
+      "Reperfusion efter længerevarende iskæmi (f.eks. efter karkirurgi)",
+      "En enkelt fibersprængning i lægmusklen",
+      "Dyb vene-trombose i crus",
+      "Langvarig steroidbehandling"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "kerneviden",
+    "topicId": "compartment_syndrome",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_072",
+    "text": "En patient har brækket begge hælben (calcaneus) ved et fald. Hvilken anden skade skal man være særlig opmærksom på?",
+    "options": [
+      "Kompressionsfraktur i columna (rygsøjlen)",
+      "Hoftedislokation",
+      "Subdural hæmatom",
+      "Rotatorcuff-ruptur i skulderen"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "udredning",
+    "topicId": "trauma_general",
+    "qc": "QC3_DDX_REASONING",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_073",
+    "text": "Intravenøs tranexamsyre givet inden for 3 timer efter større traume reducerer dødeligheden.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "evidens",
+    "topicId": "trauma_management",
+    "qc": "QC10_EVIDENCE_METHOD",
+    "type": "tf",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_074",
+    "text": "Hvad er myositis ossificans for en tilstand?",
+    "options": [
+      "Heterotop knogledannelse i bløddele efter traume",
+      "Kronisk bakteriel infektion i en muskel",
+      "Ondartet omdannelse af knoglevæv efter fraktur",
+      "Betændelse i knoglemarven efter åbent brud"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "komplikationer",
+    "topicId": "trauma_complications",
+    "qc": "QC7_COMPLICATIONS",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_075",
+    "text": "Hvad kendetegner Complex Regional Pain Syndrome (Morbus Sudeck)?",
+    "options": [
+      "Vedvarende smerter, hævelse og stivhed i en ekstremitet efter en mindre skade",
+      "Gentagne luksationer af det samme led",
+      "Kronisk knogleinfektion efter åbent brud",
+      "Nervesmerter pga. læsion af plexus brachialis"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "komplikationer",
+    "topicId": "trauma_complications",
+    "qc": "QC7_COMPLICATIONS",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_076",
+    "text": "Hvad er en Monteggia-læsion?",
+    "options": [
+      "Fraktur af proximale ulna med luksation af radiushovedet",
+      "Fraktur af distale radius med luksation af caput ulnae ved håndleddet",
+      "Bimalleolær ankelfraktur med syndesmoseruptur",
+      "Hofteluksation med samtidig femurfraktur"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "kerneviden",
+    "topicId": "forearm_injuries",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_077",
+    "text": "Hvad forstås ved en Galeazzi-fraktur?",
+    "options": [
+      "Fraktur af distale radius med luksation af caput ulnae i håndleddet",
+      "Fraktur af proximale ulna med luksation af caput radii ved albuen",
+      "Fraktur af begge underarmsknogler samme sted",
+      "Fraktur af femur distalt med samtidig patella luksation"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "kerneviden",
+    "topicId": "forearm_injuries",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_078",
+    "text": "Hvad er en alvorlig komplikation til en ubehandlet skafoideumfraktur i hånden?",
+    "options": [
+      "Avaskulær nekrose af skafoideum (især proximale del)",
+      "Dropfinger (strækkesenelæsion)",
+      "Akut karpaltunnelsyndrom",
+      "Forkortning af radius under heling"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "komplikationer",
+    "topicId": "upper_extremity",
+    "qc": "QC7_COMPLICATIONS",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_079",
+    "text": "Ved åben fraktur skal man ikke afvente faste-tider før akut kirurgi (frakturen skal opereres hurtigst muligt).",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "kerneviden",
+    "topicId": "open_fracture",
+    "qc": "QC2_CORE_URGENT",
+    "type": "tf",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_080",
+    "text": "Hvilke tre faktorer udgør den 'dødelige triade' ved svær traumeblødning?",
+    "options": [
+      "Hypotermi, koagulopati og acidose",
+      "Takykardi, hypotension og acidose",
+      "Hypotermi, hyperglykæmi og alkalose",
+      "Hypertension, koagulopati og feber"
+    ],
+    "correctIndex": 0,
+    "level": 12,
+    "domain": "kerneviden",
+    "topicId": "trauma_management",
+    "qc": "QC1_CORE_COMMON",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_081",
+    "text": "Hvilket er et 'hard sign' på arteriel skade efter ekstremitetstraume?",
+    "options": [
+      "Pulserende blødning fra såret",
+      "Iskæmiske smerter i ekstremiteten",
+      "Forsinket kapillærrespons distalt",
+      "Hypotension og takykardi"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "udredning",
+    "topicId": "vascular_injury",
+    "qc": "QC4_DIAGNOSTICS",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_082",
+    "text": "Hvad er ortopædkirurgens primære opgave i det akut multidisciplinære traumeteam?",
+    "options": [
+      "Stabilisere ekstremitetsskader (midlertidigt) og standse evt. blødninger fra dem",
+      "Varetage friholdelse af luftveje og intubation",
+      "Foretage ultralydsscanning af bughulen (FAST)",
+      "Vurdere bevidsthedsniveau og pupiller"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "tvaerfagligt",
+    "topicId": "trauma_management",
+    "qc": "QC9_SPECIAL_POP",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_083",
+    "text": "Hvilken type forskningsstudie anses generelt for at give højest evidensniveau?",
+    "options": [
+      "Systematisk review med meta-analyse af randomiserede kontrollerede studier",
+      "Et enkelt randomiseret kontrolleret studie (RCT)",
+      "Et stort prospektivt kohortestudie",
+      "En kasus-serie (case series)"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "evidens",
+    "topicId": "research_methods",
+    "qc": "QC10_EVIDENCE_METHOD",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_084",
+    "text": "Hvad bør man overveje efter reetablering af kargennemstrømning i et ben, der har været iskæmisk > 6 timer?",
+    "options": [
+      "Profylaktisk fasciotomi af muskelloger for at forebygge kompartmentsyndrom",
+      "Højdosis steroid for at reducere reperfusionsødem",
+      "Nøjes med tæt klinisk observation de næste døgn",
+      "Nedkøling af ekstremiteten for at mindske hævelse"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "procedurer",
+    "topicId": "vascular_injury",
+    "qc": "QC6_PROCEDURE_TECH",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_085",
+    "text": "Ved ukontrolleret indre blødning (f.eks. før kirurgi) tilstræbes ofte et 'tilladt lavt' blodtryk. Hvad er det omtrentlige systoliske mål?",
+    "options": [
+      "Omkring 90 mmHg systolisk",
+      "Omkring 50 mmHg systolisk",
+      "Omkring 120 mmHg systolisk",
+      "Normalt blodtryk (130-140 mmHg systolisk)"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "evidens",
+    "topicId": "trauma_management",
+    "qc": "QC10_EVIDENCE_METHOD",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_086",
+    "text": "Hvornår bør man anvende en tourniquet (afbinde) på en ekstremitetsskade?",
+    "options": [
+      "Ved livstruende blødning fra en ekstremitet, hvor direkte tryk ikke kan stoppe blødningen",
+      "Aldrig i civile skader – kun i militære sammenhænge",
+      "Kun ved amputationer, ellers ikke",
+      "Routinemæssigt ved åbne frakturer for at forebygge blodtab"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "kerneviden",
+    "topicId": "trauma_management",
+    "qc": "QC2_CORE_URGENT",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_087",
+    "text": "En patient i Marevan-behandling (warfarin) skal akut opereres for femurfraktur. Hvad bør man gøre forud for operationen?",
+    "options": [
+      "Give K-vitamin og koagulationsfaktorer (f.eks. protrombin-kompleks) for at normalisere koagulationen",
+      "Udsætte operationen indtil INR er faldet spontant til < 1,5",
+      "Give en bolus heparin som 'bro' inden operation",
+      "Foretage operationen uden hensyn til antikoagulation"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "tvaerfagligt",
+    "topicId": "trauma_management",
+    "qc": "QC5_TREATMENT_PLAN",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_088",
+    "text": "Hvilken analgetisk medicin bør anvendes med forsigtighed ved frakturer pga. mistanke om hæmmet knogleheling?",
+    "options": [
+      "NSAID (f.eks. ibuprofen)",
+      "Paracetamol",
+      "Opioider (f.eks. morfin)",
+      "Lokalbedøvelse (lidokaininjektion)"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "evidens",
+    "topicId": "fracture_principles",
+    "qc": "QC10_EVIDENCE_METHOD",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_089",
+    "text": "Hvor længe kan man typisk have en blodtomhedsmanchet (tourniquet) på en ekstremitet uden større risiko for permanente skader?",
+    "options": [
+      "Ca. 2 timer",
+      "Ca. 15 minutter",
+      "Over 6 timer hvis trykket er højt nok",
+      "Ubegrænset tid med moderne tourniqueter"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "procedurer",
+    "topicId": "trauma_management",
+    "qc": "QC6_PROCEDURE_TECH",
+    "type": "mcq",
+    "sourceHint": "UK konsensus",
+    "needsReview": false
+  },
+  {
+    "id": "ort_090",
+    "text": "Hvilken indsats mindsker risikoen for fat embolism syndrome og ARDS hos multitraumepatienter med lange rørknoglefrakturer?",
+    "options": [
+      "Tidlig stabilisering af frakturerne (f.eks. definitiv marvsømning)",
+      "Udskydelse af frakturkirurgi et par uger",
+      "Ingen immobilisering – tidlig mobilisering trods frakturer",
+      "Profylaktisk steroidbehandling"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "evidens",
+    "topicId": "trauma_management",
+    "qc": "QC10_EVIDENCE_METHOD",
+    "type": "mcq",
+    "sourceHint": "EU praksis",
+    "needsReview": false
+  },
+  {
+    "id": "ort_091",
+    "text": "Hvor lang antibiotikadække anbefales typisk ved åbne frakturer med større bløddelsskade?",
+    "options": [
+      "Ca. 3 dages intravenøs antibiotika",
+      "Kun én enkelt dosis i skadestuen",
+      "Ingen antibiotika hvis såret renses kirurgisk",
+      "3 ugers peroral antibiotikakur"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "kerneviden",
+    "topicId": "open_fracture",
+    "qc": "QC5_TREATMENT_PLAN",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_092",
+    "text": "En 70-årig med et akut hævet, rødt og smertefuldt knæ samt feber mistænkes for septisk artrit. Hvad er korrekt behandling?",
+    "options": [
+      "Akut ledaspiration og kirurgisk drænage samt iv antibiotika",
+      "NSAID og aflastning i 14 dage",
+      "Steroid-injektion i knæleddet og immobilisering",
+      "Artroskopisk meniskkirurgi"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "kerneviden",
+    "topicId": "infection_management",
+    "qc": "QC2_CORE_URGENT",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_093",
+    "text": "Ved crush syndrome (langvarigt muskelklemtraume) udvikles akut nyresvigt pga. frigivelse af...",
+    "options": [
+      "Myoglobin fra beskadiget muskelvæv",
+      "Calcium fra knoglevæv",
+      "Kolesterol fra fedtvæv",
+      "Laktat fra anaerob stofskifte"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "komplikationer",
+    "topicId": "trauma_complications",
+    "qc": "QC7_COMPLICATIONS",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_094",
+    "text": "Hvor længe kan en amputeret legemsdel typisk tåle iskæmi inden replantation ikke længere er mulig?",
+    "options": [
+      "Omkring 6 timer (varm iskæmi) – forlænget til ca. 12 timer ved kølig opbevaring",
+      "Højst 1 time uanset køling",
+      "Op til 24 timer hvis den opbevares på is",
+      "Der er ingen fast tidsgrænse for replantation"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "procedurer",
+    "topicId": "trauma_management",
+    "qc": "QC6_PROCEDURE_TECH",
+    "type": "mcq",
+    "sourceHint": "UK konsensus",
+    "needsReview": false
+  },
+  {
+    "id": "ort_095",
+    "text": "En uge efter en ankelfraktur er behandlet med gips får patienten hævet, øm læg. Hvad skal man mistænke?",
+    "options": [
+      "Dyb venetrombose (DVT) – kræver hurtig udredning og behandling",
+      "Osteomyelitis i frakturområdet",
+      "Mangelfuld elevation af benet – fortsæt kun med højtleje",
+      "Allergisk reaktion over for gipsbandagen"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "komplikationer",
+    "topicId": "trauma_complications",
+    "qc": "QC7_COMPLICATIONS",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_096",
+    "text": "Hvilket er et af NEXUS-kriterierne for at udelukke halsrygsøjle-skade uden røntgen?",
+    "options": [
+      "Intet smertende traume (ingen distraherende skade) til stede",
+      "Påvirket bevidsthedstilstand (GCS < 15)",
+      "Fokal neurologisk udfald",
+      "Spinalømhed over midtlinjen"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "udredning",
+    "topicId": "spine_management",
+    "qc": "QC4_DIAGNOSTICS",
+    "type": "mcq",
+    "sourceHint": "US guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_097",
+    "text": "Hvordan håndteres halshvirvelsøjlen hos en bevidstløs multitraumepatient?",
+    "options": [
+      "Antages skadet indtil andet er bevist – anlæg halskrave og helkropsimmobilisering indtil fuld billeddiagnostisk afklaring",
+      "Kan rykkes fri hvis ingen ydre tegn på skade foreligger",
+      "Man venter på at patienten vågner og tester klinisk før billeddiagnostik",
+      "Man undgår CT-scanning pga. kontrastbelastning"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "kerneviden",
+    "topicId": "spine_management",
+    "qc": "QC2_CORE_URGENT",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_098",
+    "text": "En patient med en uge gammel skinnebensfraktur udvikler pludseligt høj feber, ekstrem smerte i benet, mørk misfarvning af huden og krepitation ved tryk. Hvad mistænkes og hvad gøres?",
+    "options": [
+      "Nekrotiserende fasciitis – akut kirurgisk debridement og bred iv antibiotika",
+      "Osteomyelitis – intravenøs antibiotikabehandling og afventen",
+      "Kompartment syndrom – løsn gipsen og observer symptomudvikling",
+      "Dyb venetrombose – igangsæt blodfortyndende behandling"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "kerneviden",
+    "topicId": "infection_management",
+    "qc": "QC2_CORE_URGENT",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_099",
+    "text": "Hvad er den hyppigste årsag til potentiel forebyggelig død efter svære traumer?",
+    "options": [
+      "Ukontrolleret blødning",
+      "Åndedrætsstop (hypoksi)",
+      "Alvorlig hjerneskade",
+      "Infektion/sepsis"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "evidens",
+    "topicId": "trauma_management",
+    "qc": "QC10_EVIDENCE_METHOD",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
+  },
+  {
+    "id": "ort_100",
+    "text": "Ved en ulykke med mange tilskadekomne (massetriage), hvem gives laveste prioritet for behandling/evakuering?",
+    "options": [
+      "Uafvendeligt tilskadekomne (ingen respiration trods åbne luftveje) – sort kategori",
+      "Lettere tilskadekomne uden behandlingsbehov – grøn kategori",
+      "Alvorligt tilskadekomne med truende vitale funktioner – rød kategori",
+      "Børn under 5 år prioriteres altid sidst"
+    ],
+    "correctIndex": 0,
+    "level": 13,
+    "domain": "tvaerfagligt",
+    "topicId": "trauma_management",
+    "qc": "QC9_SPECIAL_POP",
+    "type": "mcq",
+    "sourceHint": "DK guideline",
+    "needsReview": false
   }
+]
 };
 
 module.exports = { QUESTION_SETS };
