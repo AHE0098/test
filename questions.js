@@ -1792,8 +1792,9 @@ const QUESTION_SETS = {
     "type": "mcq",
     "sourceHint": "DK guideline",
     "needsReview": false
+      }
+    ]
   }
-]
-}
+};
 
 module.exports = { QUESTION_SETS };
