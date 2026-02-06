@@ -23,8 +23,8 @@ const SCORE_NO_ANSWER = 0;
 
 // Speed bonus: points proportional to remaining fraction of time.
 // Example: if SPEED_BONUS_MAX=500, answering instantly yields +500, at the buzzer yields ~0.
-const SPEED_BONUS_ENABLED = false;
-const SPEED_BONUS_MAX = 500;
+const SPEED_BONUS_ENABLED = true;
+const SPEED_BONUS_MAX = 0.25;
 
 // --- Question behavior ---
 const SHUFFLE_OPTIONS = true;
@@ -33,9 +33,9 @@ const SHUFFLE_OPTIONS = true;
 // Each round selects questions from a different set.
 // Edit this array to change number of rounds, sets, and questions per round.
 const ROUNDS = [
-  { setKey: "party-dk-v1", questions: 4 },
-  { setKey: "science-nerd-v1", questions: 4 },
-  { setKey: "spicy-meds-v1", questions: 4 }
+  { setKey: "party-dk-v1", questions: 15 },
+  { setKey: "science-nerd-v1", questions: 15 },
+  { setKey: "spicy-meds-v1", questions: 15 }
 ];
 
 const LOG_EVENTS = true;
